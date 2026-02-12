@@ -14,5 +14,5 @@
   "V.0.0.11.7.bin": "V.0.0.11.7 Initial Release:\n- First official release.\n- Basic lighting modes support.",
   "V.0.0.11.8.bin": "V.0.0.11.8 Update:\n1. Fixed RGB flickering issue on low brightness.\n2. Improved macro recording stability.\n3. Added sleep mode configuration.",
   "V.0.0.11.9.bin": "V.0.0.11.9 Hotfix:\n- Fixed connectivity issue with MacOS.\n- Optimized debounce time.",
-  "V.0.0.12.1.bin": "V.0.0.12.1 Hotfix:\n- Fixed connectivity issue with MacOS.\n- Optimized debounce time.",
+  "V.0.0.12.1.bin": "V.0.0.12.1 Hotfix:\n- Fixed connectivity issue with MacOS.\n- Optimized debounce time."
 }
