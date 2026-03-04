@@ -16,5 +16,6 @@
   "V0.0.11.9.bin": "V.0.0.11.9 Hotfix:\n- Fixed connectivity issue with MacOS.\n- Optimized debounce time.",
   "V0.0.12.1.bin": "V.0.0.12.1 Hotfix:\n- Fixed connectivity issue with MacOS.\n- Optimized debounce time.",
   "V0.0.12.4.bin": "V.0.0.12.4 No update reports..",
-  "V0.0.12.5.bin": "V.0.0.12.5 No update reports.."
+  "V0.0.12.5.bin": "V.0.0.12.5 No update reports..",
+  "V0.0.12.6.bin": "V.0.0.12.6 Updated factory default lighting configuration\nBase Layer Speed changed from 50% to 30%\nTrigger Layer Speed changed from 80% to 30%\n Base Layer default lighting mode set to Static\nDefault color: R = 0, G = 255, B = 203"
 }
