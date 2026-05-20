@@ -1,0 +1,3286 @@
+{
+  "settings": {
+    "title": "Ducky Strata 98 / 75 Control Interface",
+    "version": "V0010",
+    "filename": "Ducky_Strata_Interface_v0010",
+    "watermark": "IONE INC",
+    "protocol": {
+      "hidSend": [
+        {
+          "offset": "Byte 0",
+          "value": "Report ID",
+          "comment": "0x00 (FIXED)"
+        },
+        {
+          "offset": "Byte 1~2",
+          "value": "Vendor ID",
+          "comment": "0x195d(FIXED)"
+        },
+        {
+          "offset": "Byte 3",
+          "value": "Payload Length",
+          "comment": "Payload Length"
+        },
+        {
+          "offset": "Byte 4~5",
+          "value": "Command ID",
+          "comment": "16-bit field identifiers the individual command"
+        },
+        {
+          "offset": "Byte 6 ~ ...",
+          "value": "Payload",
+          "comment": "Information required by specific command"
+        }
+      ],
+      "hidReceive": [
+        {
+          "offset": "Byte 0",
+          "value": "Report ID",
+          "comment": "0x00 (FIXED)"
+        },
+        {
+          "offset": "Byte 1~2",
+          "value": "Vendor ID",
+          "comment": "0x195d(FIXED)"
+        },
+        {
+          "offset": "Byte 3",
+          "value": "Payload Length",
+          "comment": "Payload Length"
+        },
+        {
+          "offset": "Byte 4~5",
+          "value": "Command ID",
+          "comment": "Initiating command ID with top bit set (0x80xx)"
+        },
+        {
+          "offset": "Byte 6 ~ ...",
+          "value": "Payload",
+          "comment": "Acknowledgement payload"
+        }
+      ]
+    }
+  },
+  "commands": [
+    {
+      "id": "0x0180",
+      "name": "Get Firmware Version",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Major Version"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Minor Version"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Build Version"
+        },
+        {
+          "offset": "4",
+          "value": "0x00~0xff",
+          "comment": "Major Version(BT)"
+        },
+        {
+          "offset": "5",
+          "value": "0x00~0xff",
+          "comment": "Minor Version(BT)"
+        },
+        {
+          "offset": "6",
+          "value": "0x00~0xff",
+          "comment": "Build Version(BT)"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x0101",
+      "name": "Set Profile",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "None"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "Profile 1"
+        },
+        {
+          "offset": "",
+          "value": "0x02",
+          "comment": "Profile 2"
+        },
+        {
+          "offset": "",
+          "value": "0x03",
+          "comment": "Profile 3"
+        },
+        {
+          "offset": "",
+          "value": "0x04",
+          "comment": "Profile 4"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x0181",
+      "name": "Get Profile State",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00",
+          "comment": "None"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "Profile 1"
+        },
+        {
+          "offset": "",
+          "value": "0x02",
+          "comment": "Profile 2"
+        },
+        {
+          "offset": "",
+          "value": "0x03",
+          "comment": "Profile 3"
+        },
+        {
+          "offset": "",
+          "value": "0x04",
+          "comment": "Profile 4"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x0102",
+      "name": "Set Key Mapping",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Layer"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Column"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Modifier"
+        },
+        {
+          "offset": "4",
+          "value": "0x00~0xff",
+          "comment": "Key Code"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x0182",
+      "name": "Get Key Mapping",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Layer"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Column"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Layer"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Column"
+        },
+        {
+          "offset": "4",
+          "value": "0x00~0xff",
+          "comment": "Modifier"
+        },
+        {
+          "offset": "5",
+          "value": "0x00~0xff",
+          "comment": "Key Code"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x0183",
+      "name": "Get All Key Mapping",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "Sending"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Layer"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Column"
+        },
+        {
+          "offset": "4",
+          "value": "0x00~0xff",
+          "comment": "Modifier"
+        },
+        {
+          "offset": "5",
+          "value": "0x00~0xff",
+          "comment": "Key Code"
+        },
+        {
+          "offset": "..",
+          "value": "..",
+          "comment": "Repeats until done"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x0104",
+      "name": "Set Lighting Effect",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Static"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "Disco"
+        },
+        {
+          "offset": "",
+          "value": "0x02",
+          "comment": "Wave"
+        },
+        {
+          "offset": "",
+          "value": "0x03",
+          "comment": "Prism"
+        },
+        {
+          "offset": "",
+          "value": "0x04",
+          "comment": "Rainfall"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        }
+      ],
+      "deprecated": true
+    },
+    {
+      "id": "0x0184",
+      "name": "Get Lighting Effect",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00",
+          "comment": "Static"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "Disco"
+        },
+        {
+          "offset": "",
+          "value": "0x02",
+          "comment": "Wave"
+        },
+        {
+          "offset": "",
+          "value": "0x03",
+          "comment": "Prism"
+        },
+        {
+          "offset": "",
+          "value": "0x04",
+          "comment": "Rainfall"
+        }
+      ],
+      "deprecated": true
+    },
+    {
+      "id": "0x0105",
+      "name": "Set Lighting Color",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Primary color [Alpha]"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Primary color [Red]"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Primary color [Green]"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Primary color [Blue]"
+        },
+        {
+          "offset": "4",
+          "value": "0x00~0xff",
+          "comment": "Secondary color [Alpha]"
+        },
+        {
+          "offset": "5",
+          "value": "0x00~0xff",
+          "comment": "Secondary color [Red]"
+        },
+        {
+          "offset": "6",
+          "value": "0x00~0xff",
+          "comment": "Secondary color [Green]"
+        },
+        {
+          "offset": "7",
+          "value": "0x00~0xff",
+          "comment": "Secondary color [Blue]"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        }
+      ],
+      "deprecated": true
+    },
+    {
+      "id": "0x0185",
+      "name": "Get Lighting Color",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Primary color [Alpha]"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Primary color [Red]"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Primary color [Green]"
+        },
+        {
+          "offset": "4",
+          "value": "0x00~0xff",
+          "comment": "Primary color [Blue]"
+        },
+        {
+          "offset": "5",
+          "value": "0x00~0xff",
+          "comment": "Secondary color [Alpha]"
+        },
+        {
+          "offset": "6",
+          "value": "0x00~0xff",
+          "comment": "Secondary color [Red]"
+        },
+        {
+          "offset": "7",
+          "value": "0x00~0xff",
+          "comment": "Secondary color [Green]"
+        },
+        {
+          "offset": "8",
+          "value": "0x00~0xff",
+          "comment": "Secondary color [Blue]"
+        }
+      ],
+      "deprecated": true
+    },
+    {
+      "id": "0x0186",
+      "name": "Get Knob State",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00",
+          "comment": "Volume"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "Effect"
+        },
+        {
+          "offset": "",
+          "value": "0x02",
+          "comment": "Light Color (TBD)"
+        },
+        {
+          "offset": "",
+          "value": "0x03",
+          "comment": "Multimedia"
+        }
+      ],
+      "deprecated": true
+    },
+    {
+      "id": "0x0107",
+      "name": "Set Button Lock",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Lock"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "Unlock"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x0187",
+      "name": "Get Button Lock State",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00",
+          "comment": "Lock"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "Unlock"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x0741",
+      "name": "Set Rapid Trigger Value",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Press high byte"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Press low byte"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Release high byte"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Release low byte"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        }
+      ],
+      "deprecated": true
+    },
+    {
+      "id": "0x0189",
+      "name": "Get Rapid Trigger Value",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Press high byte"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Press low byte"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Release high byte"
+        },
+        {
+          "offset": "4",
+          "value": "0x00~0xff",
+          "comment": "Release low byte"
+        }
+      ],
+      "deprecated": true
+    },
+    {
+      "id": "0x010A",
+      "name": "Set Tachyon mode",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Off"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "On"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x018A",
+      "name": "Get Tachyon mode",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00",
+          "comment": "Off"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "On"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x010B",
+      "name": "Set Snap Tap/SOCD Binding",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Primary Layer"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Primary Row"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Primary Column"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Secondary Layer"
+        },
+        {
+          "offset": "4",
+          "value": "0x00~0xff",
+          "comment": "Secondary Row"
+        },
+        {
+          "offset": "5",
+          "value": "0x00~0xff",
+          "comment": "Secondary Column"
+        },
+        {
+          "offset": "6",
+          "value": "0x00",
+          "comment": "Last Input Priority"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "Primary Priority"
+        },
+        {
+          "offset": "",
+          "value": "0x02",
+          "comment": "Secondary Priority"
+        },
+        {
+          "offset": "",
+          "value": "0x03",
+          "comment": "Neutral"
+        },
+        {
+          "offset": "7",
+          "value": "0x00",
+          "comment": "Alt pressed behavior Off"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "Alt pressed behavior On"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x018B",
+      "name": "Get Snap Tap/SOCD Binding",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "Sending"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Index"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Primary Layer"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Primary Row"
+        },
+        {
+          "offset": "4",
+          "value": "0x00~0xff",
+          "comment": "Primary Column"
+        },
+        {
+          "offset": "5",
+          "value": "0x00~0xff",
+          "comment": "Secondary Layer"
+        },
+        {
+          "offset": "6",
+          "value": "0x00~0xff",
+          "comment": "Secondary Row"
+        },
+        {
+          "offset": "7",
+          "value": "0x00~0xff",
+          "comment": "Secondary Column"
+        },
+        {
+          "offset": "8",
+          "value": "0x00",
+          "comment": "Last Input Priority"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "Primary Priority"
+        },
+        {
+          "offset": "",
+          "value": "0x02",
+          "comment": "Secondary Priority"
+        },
+        {
+          "offset": "",
+          "value": "0x03",
+          "comment": "Neutral"
+        },
+        {
+          "offset": "9",
+          "value": "0x00",
+          "comment": "Alt behavior Off"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "Alt behavior On"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x010C",
+      "name": "Set Dynamic Keystroke",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Layer"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Column"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Bindings No.1 Key code"
+        },
+        {
+          "offset": "4",
+          "value": "0x00~0xff",
+          "comment": "Bindings No.2 Key code"
+        },
+        {
+          "offset": "5",
+          "value": "0x00~0xff",
+          "comment": "Bindings No.3 Key code"
+        },
+        {
+          "offset": "6",
+          "value": "0x00~0xff",
+          "comment": "Bindings No.4 Key code"
+        },
+        {
+          "offset": "7",
+          "value": "0x00~0xff",
+          "comment": "Key Press"
+        },
+        {
+          "offset": "8",
+          "value": "0x00~0xff",
+          "comment": "Key Release"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x018C",
+      "name": "Get Dynamic Keystroke",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "Sending"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Index"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Layer"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "4",
+          "value": "0x00~0xff",
+          "comment": "Column"
+        },
+        {
+          "offset": "5",
+          "value": "0x00~0xff",
+          "comment": "Bindings No.1 Key code"
+        },
+        {
+          "offset": "6",
+          "value": "0x00~0xff",
+          "comment": "Bindings No.2 Key code"
+        },
+        {
+          "offset": "7",
+          "value": "0x00~0xff",
+          "comment": "Bindings No.3 Key code"
+        },
+        {
+          "offset": "8",
+          "value": "0x00~0xff",
+          "comment": "Bindings No.4 Key code"
+        },
+        {
+          "offset": "9",
+          "value": "0x00~0xff",
+          "comment": "Key Press"
+        },
+        {
+          "offset": "10",
+          "value": "0x00~0xff",
+          "comment": "Key Release"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x010D",
+      "name": "Set Toggle Key",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Layer"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Column"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Key Code"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x018D",
+      "name": "Get Toggle Key",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "Sending"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Index"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Layer"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "4",
+          "value": "0x00~0xff",
+          "comment": "Column"
+        },
+        {
+          "offset": "5",
+          "value": "0x00~0xff",
+          "comment": "Key Code"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x010E",
+      "name": "Set Mod Tap",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Layer"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Column"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Hold Key Code"
+        },
+        {
+          "offset": "4",
+          "value": "0x00~0xff",
+          "comment": "Click Key Code"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x018E",
+      "name": "Get Mod Tap",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "Sending"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Index"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Layer"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "4",
+          "value": "0x00~0xff",
+          "comment": "Column"
+        },
+        {
+          "offset": "5",
+          "value": "0x00~0xff",
+          "comment": "Hold Key Code"
+        },
+        {
+          "offset": "6",
+          "value": "0x00~0xff",
+          "comment": "Click Key Code"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x010F",
+      "name": "Set Rappy Snappy",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Primary Layer"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Primary Row"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Primary Column"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Secondary Layer"
+        },
+        {
+          "offset": "4",
+          "value": "0x00~0xff",
+          "comment": "Secondary Row"
+        },
+        {
+          "offset": "5",
+          "value": "0x00~0xff",
+          "comment": "Secondary Column"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x018F",
+      "name": "Get Rappy Snappy / Mod Tap",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "Sending"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Primary Layer"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Primary Row"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Primary Column"
+        },
+        {
+          "offset": "4",
+          "value": "0x00~0xff",
+          "comment": "Secondary Layer"
+        },
+        {
+          "offset": "5",
+          "value": "0x00~0xff",
+          "comment": "Secondary Row"
+        },
+        {
+          "offset": "6",
+          "value": "0x00~0xff",
+          "comment": "Secondary Column"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x0201",
+      "name": "Set Factory Reset",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x01",
+          "comment": "Success status code (Document deviation from 0x00)"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x0282",
+      "name": "Get Dongle Firmware Version",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Major Version"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Minor Version"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Build Version"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x0283",
+      "name": "Get Layer Count",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Number of Layers"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x0204",
+      "name": "Keymap Reset",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x0205",
+      "name": "Set Lighting Value",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x01~0x04",
+          "comment": "1:Bright, 2:Effect, 3:Speed, 4:Color"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Bright : 0x00~0x64\n\nEffect :\n0x00 : 0ff\n0x01 : Static\n0x02 : Wave_Rainbow_Left\n0x03 : Wave_Rainbow_Right\n0x04 : Wave_Sunset_Left\n0x05 : Wave_Sunset_Right\n0x06 : Wave_Aurora_Left\n0x07 : Wave_Aurora_Right\n0x08 : Wave_Electro_Left\n0x09 : Wave_Electro_Right\n0x0a : Wave_Lemon_Left\n0x0b : Wave_Lemon_Right\n0x0c : Cycle_Rainbow\n0x0d : Cycle_Sunset\n0x0e : Cycle_Aurora\n0x0f : Cycle_Electro\n0x10 : Cycle_Lemon\n0x11 : Rain Drop(Solid)\n0x12 : Rain Drop(Random)\n0x13 : Breathing(Solid)\n0x14 : Breathing(Random)\n\nSpeed : 0x00~0x64\n\nColor: 0x00~0Xff (Color R)"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Color G"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Color B"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x0285",
+      "name": "Get Lighting Value",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x01~0x04",
+          "comment": "1:Bright, 2:Effect, 3:Speed, 4:Color"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Bright : 0x00~0x64\n\nEffect :\n0x00 : 0ff\n0x01 : Static\n0x02 : Wave_Rainbow_Left\n0x03 : Wave_Rainbow_Right\n0x04 : Wave_Sunset_Left\n0x05 : Wave_Sunset_Right\n0x06 : Wave_Aurora_Left\n0x07 : Wave_Aurora_Right\n0x08 : Wave_Electro_Left\n0x09 : Wave_Electro_Right\n0x0a : Wave_Lemon_Left\n0x0b : Wave_Lemon_Right\n0x0c : Cycle_Rainbow\n0x0d : Cycle_Sunset\n0x0e : Cycle_Aurora\n0x0f : Cycle_Electro\n0x10 : Cycle_Lemon\n0x11 : Rain Drop(Solid)\n0x12 : Rain Drop(Random)\n0x13 : Breathing(Solid)\n0x14 : Breathing(Random)\n\nSpeed : 0x00~0x64\n\nColor: 0x00~0Xff (Color R)"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Color G"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Color B"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x0206",
+      "name": "Save Lighting",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x0287",
+      "name": "Get Macro Count",
+      "deprecated": true,
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Number of Macros"
+        }
+      ]
+    },
+    {
+      "id": "0x0288",
+      "name": "Get Macro Buffer Size",
+      "deprecated": true,
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "1-2",
+          "value": "0x0000~0xffff",
+          "comment": "Buffer Size (Uint16, Big Endian)"
+        }
+      ]
+    },
+    {
+      "id": "0x0209",
+      "name": "Set Macro Buffer",
+      "deprecated": true,
+      "payload": [
+        {
+          "offset": "0-1",
+          "value": "0x0000~0xffff",
+          "comment": "Offset (Uint16, Big Endian)"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Size"
+        },
+        {
+          "offset": "3...",
+          "value": "Data",
+          "comment": "Macro Data"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0289",
+      "name": "Get Macro Buffer",
+      "deprecated": true,
+      "payload": [
+        {
+          "offset": "0-1",
+          "value": "0x0000~0xffff",
+          "comment": "Offset (Uint16, Big Endian)"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Size"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "1-2",
+          "value": "0x0000~0xffff",
+          "comment": "Offset (Uint16, Big Endian)"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Size"
+        },
+        {
+          "offset": "4...",
+          "value": "0x00~0xff",
+          "comment": "Macro Data"
+        }
+      ]
+    },
+    {
+      "id": "0x020A",
+      "name": "Set NKRO State",
+      "deprecated": false,
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0~00~0x01",
+          "comment": "0: Disabled (6KRO), 1: Enabled"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x028A",
+      "name": "Get NKRO State",
+      "deprecated": false,
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0x01",
+          "comment": "0: Disabled (6KRO), 1: Enabled"
+        }
+      ]
+    },
+    {
+      "id": "0x020B",
+      "name": "Set Lock LED Color",
+      "deprecated": true,
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0x04",
+          "comment": "0:Caps, 1:Fn, 2:Win, 3:Num, 4:Scroll"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0x05",
+          "comment": "0:White, 1:Yel, 2:Grn, 3:Blu, 4:Red, 5:Pur"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x028B",
+      "name": "Get Lock LED Color",
+      "deprecated": true,
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "1-5",
+          "value": "0x00~0x04",
+          "comment": "Color IDs for Caps, Fn, Win, Num, Scroll"
+        }
+      ]
+    },
+    {
+      "id": "0x020C",
+      "name": "Set Sleep Enable",
+      "deprecated": false,
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0x01",
+          "comment": "0: Disabled, 1: Enabled"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x028C",
+      "name": "Get Sleep Enable",
+      "deprecated": false,
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0x01",
+          "comment": "0: Disabled, 1: Enabled"
+        }
+      ]
+    },
+    {
+      "id": "0x020D",
+      "name": "Set Dimming Time",
+      "deprecated": false,
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Low Byte (minutes & 0xFF)"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "High Byte (minutes >> 8)"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x028D",
+      "name": "Get Dimming Time",
+      "deprecated": false,
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Low Byte (minutes & 0xFF)"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "High Byte (minutes >> 8)"
+        }
+      ]
+    },
+    {
+      "id": "0x020E",
+      "name": "Set Turn Off Time",
+      "deprecated": false,
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Low Byte (minutes & 0xFF)"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "High Byte (minutes >> 8)"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x028E",
+      "name": "Get Turn Off Time",
+      "deprecated": false,
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Low Byte (minutes & 0xFF)"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "High Byte (minutes >> 8)"
+        }
+      ]
+    },
+    {
+      "id": "0x020F",
+      "name": "Set Wired Scan Rate",
+      "deprecated": false,
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Scan Rate Index"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x028F",
+      "name": "Get Wired Scan Rate",
+      "deprecated": false,
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Scan Rate Index"
+        }
+      ]
+    },
+    {
+      "id": "0x0301",
+      "name": "Set Wired Polling Rate",
+      "deprecated": false,
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Polling Rate Index"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0381",
+      "name": "Get Wired Polling Rate",
+      "deprecated": false,
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Polling Rate Index"
+        }
+      ]
+    },
+    {
+      "id": "0x0302",
+      "name": "Set 2.4G Scan Rate",
+      "deprecated": false,
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Scan Rate Index"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0382",
+      "name": "Get 2.4G Scan Rate",
+      "deprecated": false,
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Scan Rate Index"
+        }
+      ]
+    },
+    {
+      "id": "0x0303",
+      "name": "Set 2.4G Polling Rate",
+      "deprecated": false,
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Polling Rate Index"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0383",
+      "name": "Get 2.4G Polling Rate",
+      "deprecated": false,
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Polling Rate Index"
+        }
+      ]
+    },
+    {
+      "id": "0x0304",
+      "name": "Set Trigger Layer Lighting",
+      "deprecated": false,
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x01~0x05",
+          "comment": "1:Bright, 2:Effect, 3:Speed, 4:Color 5: Width"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Bright : 0x00~0x64\n\nEffect :\n0x00 : 0ff\n0x01 : Ripple(Solid)\n0x02 : Ripple(Random)\n0x03 : Reactive(Solid)\n0x04 : Reactive(Random)\n\nSpeed : 0x00~0x64\n\nColor: 0x00~0Xff (Color R)\n\nWidth:\n0x00 : 2 key (Slim)\n0x01 : 3 key (Normal)\n0x02 : 4 key (Thick)"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Color G"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Color B"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success"
+        }
+      ]
+    },
+    {
+      "id": "0x0384",
+      "name": "Get Trigger Layer Lighting",
+      "deprecated": false,
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x01~0x05",
+          "comment": "1:Bright, 2:Effect, 3:Speed, 4:Color 5: Width"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Bright : 0x00~0x64\n\nEffect :\n0x00 : 0ff\n0x01 : Ripple(Solid)\n0x02 : Ripple(Random)\n0x03 : Reactive(Solid)\n0x04 : Reactive(Random)\n\nSpeed : 0x00~0x64\n\nColor: 0x00~0Xff (Color R)\n\nWidth:\n0x00 : 2 key (Slim)\n0x01 : 3 key (Normal)\n0x02 : 4 key (Thick)"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Color G"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Color B"
+        }
+      ]
+    },
+    {
+      "id": "0x0305",
+      "name": "Set Actuation State",
+      "deprecated": false,
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0x01",
+          "comment": "0x00 : Off\n0x01: On"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0385",
+      "name": "Get Actuation State",
+      "deprecated": false,
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0x01",
+          "comment": "0x00 : Off\n0x01: On"
+        }
+      ]
+    },
+    {
+      "id": "0x0306",
+      "name": "Set Actuation Value",
+      "deprecated": false,
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Column"
+        },
+        {
+          "offset": "2~3",
+          "value": "0x0000~0xffff",
+          "comment": "Actuation Value(mm)"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0386",
+      "name": "Get Actuation Value",
+      "deprecated": false,
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Column"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Column"
+        },
+        {
+          "offset": "3~4",
+          "value": "0x0000~0xffff",
+          "comment": "Actuation Value(mm)"
+        }
+      ]
+    },
+    {
+      "id": "0x0307",
+      "name": "Set All Actuation",
+      "deprecated": false,
+      "payload": [
+        {
+          "offset": "0~1",
+          "value": "0x0000~0xffff",
+          "comment": "Autuation (mm)"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0387",
+      "name": "Get All Actuation",
+      "deprecated": false,
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "Sending"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0ff",
+          "comment": "Column"
+        },
+        {
+          "offset": "3~4",
+          "value": "0x0000~0xffff",
+          "comment": "Autuation (mm)"
+        },
+        {
+          "offset": "..",
+          "value": "..",
+          "comment": "Repeats until done"
+        }
+      ]
+    },
+    {
+      "id": "0x0308",
+      "name": "Save Actuation Settings",
+      "deprecated": false,
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0309",
+      "name": "Set Visual Feedback State",
+      "deprecated": false,
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0x01",
+          "comment": "0x00: Off\n0x01: On"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0389",
+      "name": "Get Visual Feedback State",
+      "deprecated": false,
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0x01",
+          "comment": "0x00: Off\n0x01: On"
+        }
+      ]
+    },
+    {
+      "id": "0x0108",
+      "name": "Set Rapid Trigger State",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Off"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "On (Only Press)"
+        },
+        {
+          "offset": "",
+          "value": "0x02",
+          "comment": "On (Press and Release)"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x0188",
+      "name": "Get Rapid Trigger State",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00",
+          "comment": "Off"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "On (Only Press)"
+        },
+        {
+          "offset": "",
+          "value": "0x02",
+          "comment": "On (Press and Release)"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x030A",
+      "name": "Set Rapid Trigger Press Value ref 0x0108",
+      "deprecated": false,
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Column"
+        },
+        {
+          "offset": "2~3",
+          "value": "0x0000~0xffff",
+          "comment": "Rapid Trigger  Press Value(mm)"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x038A",
+      "name": "Get Rapid Trigger Press Value ref 0x0108",
+      "deprecated": false,
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Column"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Column"
+        },
+        {
+          "offset": "3~4",
+          "value": "0x0000~0xffff",
+          "comment": "Rapid Trigger Press Value(mm)"
+        }
+      ]
+    },
+    {
+      "id": "0x030B",
+      "name": "Set Rapid Trigger Release Value ref 0x0108",
+      "deprecated": false,
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Column"
+        },
+        {
+          "offset": "2~3",
+          "value": "0x0000~0xffff",
+          "comment": "Rapid Trigger Release Value (mm)"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x038B",
+      "name": "Get Rapid Trigger Release Value ref 0x0108",
+      "deprecated": false,
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Column"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Column"
+        },
+        {
+          "offset": "2~3",
+          "value": "0x0000~0xffff",
+          "comment": "Rapid Trigger Release Value (mm)"
+        }
+      ]
+    },
+    {
+      "id": "0x038C",
+      "name": "Get All Rapid Trigger Release Value",
+      "deprecated": false,
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "Sending"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0ff",
+          "comment": "Column"
+        },
+        {
+          "offset": "3~4",
+          "value": "0x0000~0xffff",
+          "comment": "Rapid Trigger Press Value (mm)"
+        },
+        {
+          "offset": "5~6",
+          "value": "0x0000~0xffff",
+          "comment": "Rapid Trigger Release Value (mm)"
+        },
+        {
+          "offset": "..",
+          "value": "..",
+          "comment": "Repeats until done"
+        }
+      ]
+    },
+    {
+      "id": "0x030D",
+      "name": "Set Rapid Trigger Continuous State",
+      "deprecated": false,
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0x01",
+          "comment": "0x00 : Off\n0x01: On"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x038D",
+      "name": "Get Rapid Trigger Continuous State",
+      "deprecated": false,
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0x01",
+          "comment": "0x00 : Off\n0x01: On"
+        }
+      ]
+    },
+    {
+      "id": "0x030E",
+      "name": "Save Rapid Trigger Settings",
+      "deprecated": false,
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x030F",
+      "name": "Set Gamepad Curve",
+      "deprecated": false,
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "In0"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Out0"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "In1"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Out1"
+        },
+        {
+          "offset": "4",
+          "value": "0x00~0xff",
+          "comment": "In2"
+        },
+        {
+          "offset": "5",
+          "value": "0x00~0xff",
+          "comment": "Out2"
+        },
+        {
+          "offset": "6",
+          "value": "0x00~0xff",
+          "comment": "In3"
+        },
+        {
+          "offset": "7",
+          "value": "0x00~0xff",
+          "comment": "Out3"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x038F",
+      "name": "Get Gamepad Curve",
+      "deprecated": false,
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "In0"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Out0"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "In1"
+        },
+        {
+          "offset": "4",
+          "value": "0x00~0xff",
+          "comment": "Out1"
+        },
+        {
+          "offset": "5",
+          "value": "0x00~0xff",
+          "comment": "In2"
+        },
+        {
+          "offset": "6",
+          "value": "0x00~0xff",
+          "comment": "Out2"
+        },
+        {
+          "offset": "7",
+          "value": "0x00~0xff",
+          "comment": "In3"
+        },
+        {
+          "offset": "8",
+          "value": "0x00~0xff",
+          "comment": "Out3"
+        }
+      ]
+    },
+    {
+      "id": "0x0401",
+      "name": "Set Gamepad Mode",
+      "deprecated": false,
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0x01",
+          "comment": "0x00: Off\n0x01: On"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0481",
+      "name": "Get Gamepad Mode",
+      "deprecated": false,
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0x01",
+          "comment": "0x00: Off\n0x01: On"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0x01",
+          "comment": "0x00: Off\n0x01: On"
+        }
+      ]
+    },
+    {
+      "id": "0x0402",
+      "name": "Set Keyboard Override",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0x01",
+          "comment": "0x00: Disable, 0x01: Enable (Override Keyboard Keys / Passthrough)"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x0482",
+      "name": "Get Keyboard Override",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0x01",
+          "comment": "0x00: Disable, 0x01: Enable (Override Keyboard Keys)"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x0483",
+      "name": "Get Macro Info",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0x09",
+          "comment": "Macro Index (0~9)"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0x09",
+          "comment": "Macro Index"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xB4",
+          "comment": "Total Step Count (0~180)"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x0484",
+      "name": "Read Macro Chunk",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0x09",
+          "comment": "Macro Index (0~9)"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xB4",
+          "comment": "Start Step Index"
+        },
+        {
+          "offset": "2",
+          "value": "0x01~0x04",
+          "comment": "Steps to Request (Max 4)"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0x09",
+          "comment": "Macro Index"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xB4",
+          "comment": "Start Step Index"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0x04",
+          "comment": "Actual Received Steps"
+        },
+        {
+          "offset": "4~...",
+          "value": "Step Data",
+          "comment": "6 bytes per step: [DelayType(0=Fixed,1=Random), DelayMS_L, DelayMS_H, Action(0=None,1=Press,2=Release), KC_L, KC_H]"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x0405",
+      "name": "Delete Macro",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0x09",
+          "comment": "Macro Index (0~9)"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x0406",
+      "name": "Write Macro Field",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0x09",
+          "comment": "Macro Index (0~9)"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xB3",
+          "comment": "Step Index (0~179)"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0x05",
+          "comment": "Field ID (0:KeyCode, 1:DelayType, 2:DelayMS, 3:Action, 4:StepCount, 5:ClearStep)"
+        },
+        {
+          "offset": "3~...",
+          "value": "Value Bytes",
+          "comment": "Value corresponding to Field ID"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0x09",
+          "comment": "Macro Index"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x0407",
+      "name": " Write Macro Bulk",
+      "deprecated": false,
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0x09",
+          "comment": "macro_idx"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xb3",
+          "comment": "Start Step"
+        },
+        {
+          "offset": "2",
+          "value": "0x01~0x04",
+          "comment": "0x01: count= 1 step\n0x02: count= 2 step\n0x03: count= 3 step\n0x04: count= 4 step\n"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0x01",
+          "comment": "0x00: Delay Type = Fixed\n0x01: Delay Type = Random"
+        },
+        {
+          "offset": "4~5",
+          "value": "0x0000~0xffff",
+          "comment": "DelayMS  byte (LE uint16, 0.65535 ms, after action)"
+        },
+        {
+          "offset": "6",
+          "value": "0x00~0x02",
+          "comment": "0x00: Action = None\n0x01: Action = Press\n0x02:  Action = Release"
+        },
+        {
+          "offset": "7~8",
+          "value": "0x000~0xffff",
+          "comment": "KeyCode"
+        },
+        {
+          "offset": "..26",
+          "value": "",
+          "comment": "Repeated offsets 2-8 are valid when count > 1"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0x09",
+          "comment": "macro_idx"
+        }
+      ]
+    },
+    {
+      "id": "0x0700",
+      "name": "Set Test Mode",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x01",
+          "comment": "Enter Test Mode"
+        },
+        {
+          "offset": "",
+          "value": "0x02",
+          "comment": "Exit Test Mode"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x01",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x0701",
+      "name": "Set RF Test Mode Enable",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x0702",
+      "name": "BLE Reboot",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x0703",
+      "name": "Set RF Test XTAL Calibration",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x0704",
+      "name": "Set RF Test Power",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x01~0x0f",
+          "comment": "Power Level"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x0705",
+      "name": "Set RF Test Single Carrier Low CH",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x0706",
+      "name": "Set RF Test Single Carrier Mid CH",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x0707",
+      "name": "Set RF Test Single Carrier High CH",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x0708",
+      "name": "Set RF Test Modulation Low CH",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x0709",
+      "name": "Set RF Test Modulation Mid CH",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x070A",
+      "name": "Set RF Test Modulation High CH",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x070B",
+      "name": "Set RF Test Single Carrier Set",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x02~0x50",
+          "comment": "Channel (2~80)"
+        },
+        {
+          "offset": "1",
+          "value": "0x01~0x0f",
+          "comment": "Power Level"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x070C",
+      "name": "Set RF Test Modulation Set",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x02~0x50",
+          "comment": "Channel (2~80)"
+        },
+        {
+          "offset": "1",
+          "value": "0x01~0x0f",
+          "comment": "Power Level"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0x02",
+          "comment": "PHY Speed"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x070D",
+      "name": "Set RF Test RX Sensitivity",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x02~0x50",
+          "comment": "Channel (2~80)"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0x02",
+          "comment": "PHY Speed"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x070E",
+      "name": "Set RF DTM Mode Enable",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ],
+      "deprecated": false
+    },
+    {
+      "id": "0x070F",
+      "name": "Set Bt Protocol Send RF Test Continuous TX Test",
+      "deprecated": false,
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x02~0x50",
+          "comment": "Channel"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0800",
+      "name": "Set Bt Protocol Send RF Test Continuous RX Test",
+      "deprecated": false,
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x02~0x50",
+          "comment": "Channel"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    }
+  ]
+}
