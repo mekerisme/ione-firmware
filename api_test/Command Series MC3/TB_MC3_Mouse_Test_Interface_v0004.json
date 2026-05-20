@@ -1,0 +1,294 @@
+{
+  "settings": {
+    "title": "TB_MC3 Mouse Calibration & Test API",
+    "version": "V0004",
+    "filename": "TB_MC3_Mouse_Test_Interface_v0004",
+    "watermark": "IONE",
+    "protocol": {
+      "hidSend": [
+        {
+          "offset": "Byte 0",
+          "value": "Report ID",
+          "comment": "0x02 (Fixed)"
+        },
+        {
+          "offset": "Byte 1~2",
+          "value": "Vendor ID",
+          "comment": "0x195d (Fixed)"
+        },
+        {
+          "offset": "Byte 3",
+          "value": "Length",
+          "comment": "Payload Length"
+        },
+        {
+          "offset": "Byte 4~5",
+          "value": "Command ID",
+          "comment": "Command Identifier"
+        },
+        {
+          "offset": "Byte 6...",
+          "value": "Payload",
+          "comment": "Data"
+        }
+      ],
+      "hidReceive": [
+        {
+          "offset": "Byte 0",
+          "value": "Report ID",
+          "comment": "0x02 (Fixed)"
+        },
+        {
+          "offset": "Byte 1~2",
+          "value": "Vendor ID",
+          "comment": "0x195d (Fixed)"
+        },
+        {
+          "offset": "Byte 3",
+          "value": "Length",
+          "comment": "Payload Length"
+        },
+        {
+          "offset": "Byte 4~5",
+          "value": "Command ID",
+          "comment": "Returns (Cmd ID | 0x8000)"
+        },
+        {
+          "offset": "Byte 6...",
+          "value": "Payload",
+          "comment": "Ack Data"
+        }
+      ]
+    }
+  },
+  "commands": [
+    {
+      "id": "0x0180",
+      "name": "Get Firmware Vesrion",
+      "deprecated": false,
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff ",
+          "comment": "Major Version"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff ",
+          "comment": "Minor Version"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff ",
+          "comment": "Build Version"
+        }
+      ]
+    },
+    {
+      "id": "0x0400",
+      "name": "Set Test Mode",
+      "deprecated": false,
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00 / 0x01",
+          "comment": "0: Exit, 1: Enter Test Mode"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success"
+        }
+      ]
+    },
+    {
+      "id": "0x0401",
+      "name": "Set DPI Calibration",
+      "deprecated": false,
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0x05",
+          "comment": "0x00: \nAll Calibration(base 3200 dpi)\n\nOnly Calibration:\n0x01: 400 dpi\n0x02: 800 dpi\n0x03: 1200 dpi\n0x04: 1600 dpi \n0x05: 3200 dpi"
+        },
+        {
+          "offset": "1~2",
+          "value": "0x0000~0xffff",
+          "comment": "X-Compensated Value"
+        },
+        {
+          "offset": "3~4",
+          "value": "0x0000~0xffff",
+          "comment": "Y-Compensated Value"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success"
+        }
+      ]
+    },
+    {
+      "id": "0x0481",
+      "name": "Get DPI Calibration",
+      "deprecated": false,
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0x05",
+          "comment": "0x00: \nAll Calibration(base 3200 dpi)\n\nOnly Calibration:\n0x01: 400 dpi\n0x02: 800 dpi\n0x03: 1200 dpi\n0x04: 1600 dpi \n0x05: 3200 dpi"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success"
+        },
+        {
+          "offset": "1~2",
+          "value": "0x0000~0xffff",
+          "comment": "X-Compensated Value"
+        },
+        {
+          "offset": "3~4",
+          "value": "0x0000~0xffff",
+          "comment": "Y-Compensated Value"
+        }
+      ]
+    },
+    {
+      "id": "0x0402",
+      "name": "Set Button Test Notify",
+      "deprecated": false,
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0x01",
+          "comment": "0x00:Disable\n0x01:Enable"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success"
+        },
+        {
+          "offset": "1",
+          "value": "Button ID",
+          "comment": "01:Left, \n02:Right,\n03:Mid,\n04:Tilt-L,\n05:Tilt-R,\n06:Scr-Up,\n07:Scr-Dn,\n08:IE-Fwd,\n09:IE-Bwd,\n10:EasyShift,\n11:DPI-Cycle"
+        },
+        {
+          "offset": "2",
+          "value": "0x00 / 0x01",
+          "comment": "0: Release, 1: Press"
+        }
+      ]
+    },
+    {
+      "id": "0x0403",
+      "name": "Set Current DPI",
+      "deprecated": false,
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x01~0x05",
+          "comment": "Current Level\nlevel 1:  400 dpi\nlevel 2:  800 dpi\nlevel 3: 1200 dpi\nlevel 4: 1600 dpi \nlevel 5: 3200 dpi\n"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success"
+        }
+      ]
+    },
+    {
+      "id": "0x0483",
+      "name": "Get Current DPI",
+      "deprecated": false,
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success"
+        },
+        {
+          "offset": "1",
+          "value": "0x01~0x05",
+          "comment": "Current Level\nlevel 1:  400 dpi\nlevel 2:  800 dpi\nlevel 3: 1200 dpi\nlevel 4: 1600 dpi \nlevel 5: 3200 dpi\n"
+        }
+      ]
+    },
+    {
+      "id": "0x0485",
+      "name": "Get Battery Level",
+      "deprecated": false,
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0x64",
+          "comment": "Battery Level(0~100)"
+        }
+      ]
+    },
+    {
+      "id": "0x0406",
+      "name": "Set Dongle Pairing",
+      "deprecated": false,
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0407",
+      "name": "Set Factory Reset",
+      "deprecated": false,
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0408",
+      "name": "Set Remove Paired Bluetooth Devices",
+      "deprecated": false,
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    }
+  ]
+}
