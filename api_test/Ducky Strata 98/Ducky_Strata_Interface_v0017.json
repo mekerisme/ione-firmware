@@ -1,0 +1,4227 @@
+{
+  "version": 3,
+  "settings": {
+    "title": "Ducky Strata 98 / 75 Control Interface",
+    "version": "V0017",
+    "filename": "Ducky_Strata_Interface_v0017",
+    "watermark": "IONE INC",
+    "protocol": {
+      "usagePage": "0xFF70",
+      "id": "0x0061",
+      "hidSend": [
+        {
+          "offset": "Byte 0",
+          "value": "Report ID",
+          "comment": "0x00 (FIXED)"
+        },
+        {
+          "offset": "Byte 1~2",
+          "value": "Vendor ID",
+          "comment": "0x195d(FIXED)"
+        },
+        {
+          "offset": "Byte 3",
+          "value": "Payload Length",
+          "comment": "Payload Length"
+        },
+        {
+          "offset": "Byte 4~5",
+          "value": "Command ID",
+          "comment": "16-bit field identifiers the individual command\n(commands after 0x0700 are factory test commands)."
+        },
+        {
+          "offset": "Byte 6 ~ ...",
+          "value": "Payload",
+          "comment": "Information required by specific command"
+        }
+      ],
+      "hidReceive": [
+        {
+          "offset": "Byte 0",
+          "value": "Report ID",
+          "comment": "0x00 (FIXED)"
+        },
+        {
+          "offset": "Byte 1~2",
+          "value": "Vendor ID",
+          "comment": "0x195d(FIXED)"
+        },
+        {
+          "offset": "Byte 3",
+          "value": "Payload Length",
+          "comment": "Payload Length"
+        },
+        {
+          "offset": "Byte 4~5",
+          "value": "Command ID",
+          "comment": "Initiating command ID with top bit set (0x80xx)\n(commands after 0x8700 are factory test commands)."
+        },
+        {
+          "offset": "Byte 6 ~ ...",
+          "value": "Payload",
+          "comment": "Acknowledgement payload"
+        }
+      ]
+    }
+  },
+  "commands": [
+    {
+      "id": "0x0180",
+      "name": "Get Firmware Version",
+      "deprecated": false,
+      "payloadDescription": "No Command Payload is required; send an empty payload to read the keyboard and Bluetooth firmware versions.",
+      "ackDescription": "The acknowledgement returns a status code plus the keyboard and BT firmware Major, Minor, and Build version fields.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Major Version"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Minor Version"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Build Version"
+        },
+        {
+          "offset": "4",
+          "value": "0x00~0xff",
+          "comment": "Major Version(BT)"
+        },
+        {
+          "offset": "5",
+          "value": "0x00~0xff",
+          "comment": "Minor Version(BT)"
+        },
+        {
+          "offset": "6",
+          "value": "0x00~0xff",
+          "comment": "Build Version(BT)"
+        }
+      ]
+    },
+    {
+      "id": "0x0101",
+      "name": "Set Profile",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload selects the active profile; 0x00 means None and 0x01-0x04 select Profile 1-4.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the profile switch succeeded.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "None"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "Profile 1"
+        },
+        {
+          "offset": "",
+          "value": "0x02",
+          "comment": "Profile 2"
+        },
+        {
+          "offset": "",
+          "value": "0x03",
+          "comment": "Profile 3"
+        },
+        {
+          "offset": "",
+          "value": "0x04",
+          "comment": "Profile 4"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0181",
+      "name": "Get Profile State",
+      "deprecated": false,
+      "payloadDescription": "No Command Payload is required; send an empty payload to read the currently active profile.",
+      "ackDescription": "The acknowledgement returns a status code and the current profile state.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00",
+          "comment": "None"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "Profile 1"
+        },
+        {
+          "offset": "",
+          "value": "0x02",
+          "comment": "Profile 2"
+        },
+        {
+          "offset": "",
+          "value": "0x03",
+          "comment": "Profile 3"
+        },
+        {
+          "offset": "",
+          "value": "0x04",
+          "comment": "Profile 4"
+        }
+      ]
+    },
+    {
+      "id": "0x0102",
+      "name": "Set Key Mapping",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload specifies the layer, row, column, modifier, and key code used to program a single key mapping.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the key mapping was written successfully.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Layer"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Column"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Modifier"
+        },
+        {
+          "offset": "4",
+          "value": "0x00~0xff",
+          "comment": "Key Code"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0182",
+      "name": "Get Key Mapping",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload specifies the layer, row, and column of the key mapping to read.",
+      "ackDescription": "The acknowledgement returns a status code plus the requested layer, row, column, modifier, and key code.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Layer"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Column"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Layer"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Column"
+        },
+        {
+          "offset": "4",
+          "value": "0x00~0xff",
+          "comment": "Modifier"
+        },
+        {
+          "offset": "5",
+          "value": "0x00~0xff",
+          "comment": "Key Code"
+        }
+      ]
+    },
+    {
+      "id": "0x0183",
+      "name": "Get All Key Mapping",
+      "deprecated": false,
+      "payloadDescription": "No Command Payload is required; send an empty payload to read all key mappings sequentially.",
+      "ackDescription": "The acknowledgement uses the status code to report success, sending, or failure, and returns each mapping with layer, row, column, modifier, and key code fields.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "Sending"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Layer"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Column"
+        },
+        {
+          "offset": "4",
+          "value": "0x00~0xff",
+          "comment": "Modifier"
+        },
+        {
+          "offset": "5",
+          "value": "0x00~0xff",
+          "comment": "Key Code"
+        },
+        {
+          "offset": "..",
+          "value": "..",
+          "comment": "Repeats until done"
+        }
+      ]
+    },
+    {
+      "id": "0x0104",
+      "name": "Set Lighting Effect",
+      "deprecated": true,
+      "payloadDescription": "The Command Payload selects the lighting effect to apply, such as Static, Disco, Wave, Prism, or Rainfall.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the lighting effect was set successfully.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Static"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "Disco"
+        },
+        {
+          "offset": "",
+          "value": "0x02",
+          "comment": "Wave"
+        },
+        {
+          "offset": "",
+          "value": "0x03",
+          "comment": "Prism"
+        },
+        {
+          "offset": "",
+          "value": "0x04",
+          "comment": "Rainfall"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0184",
+      "name": "Get Lighting Effect",
+      "deprecated": true,
+      "payloadDescription": "No Command Payload is required; send an empty payload to read the current lighting effect.",
+      "ackDescription": "The acknowledgement returns a status code and the currently selected lighting effect.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00",
+          "comment": "Static"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "Disco"
+        },
+        {
+          "offset": "",
+          "value": "0x02",
+          "comment": "Wave"
+        },
+        {
+          "offset": "",
+          "value": "0x03",
+          "comment": "Prism"
+        },
+        {
+          "offset": "",
+          "value": "0x04",
+          "comment": "Rainfall"
+        }
+      ]
+    },
+    {
+      "id": "0x0105",
+      "name": "Set Lighting Color",
+      "deprecated": true,
+      "payloadDescription": "The Command Payload provides the primary and secondary ARGB color values used to configure lighting colors.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the lighting color was set successfully.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Primary color [Alpha]"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Primary color [Red]"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Primary color [Green]"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Primary color [Blue]"
+        },
+        {
+          "offset": "4",
+          "value": "0x00~0xff",
+          "comment": "Secondary color [Alpha]"
+        },
+        {
+          "offset": "5",
+          "value": "0x00~0xff",
+          "comment": "Secondary color [Red]"
+        },
+        {
+          "offset": "6",
+          "value": "0x00~0xff",
+          "comment": "Secondary color [Green]"
+        },
+        {
+          "offset": "7",
+          "value": "0x00~0xff",
+          "comment": "Secondary color [Blue]"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0185",
+      "name": "Get Lighting Color",
+      "deprecated": true,
+      "payloadDescription": "No Command Payload is required; send an empty payload to read the current primary and secondary lighting colors.",
+      "ackDescription": "The acknowledgement returns a status code plus the primary and secondary ARGB color values.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Primary color [Alpha]"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Primary color [Red]"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Primary color [Green]"
+        },
+        {
+          "offset": "4",
+          "value": "0x00~0xff",
+          "comment": "Primary color [Blue]"
+        },
+        {
+          "offset": "5",
+          "value": "0x00~0xff",
+          "comment": "Secondary color [Alpha]"
+        },
+        {
+          "offset": "6",
+          "value": "0x00~0xff",
+          "comment": "Secondary color [Red]"
+        },
+        {
+          "offset": "7",
+          "value": "0x00~0xff",
+          "comment": "Secondary color [Green]"
+        },
+        {
+          "offset": "8",
+          "value": "0x00~0xff",
+          "comment": "Secondary color [Blue]"
+        }
+      ]
+    },
+    {
+      "id": "0x0186",
+      "name": "Get Knob State",
+      "deprecated": true,
+      "payloadDescription": "No Command Payload is required; send an empty payload to read the current knob function state.",
+      "ackDescription": "The acknowledgement returns a status code and the knob mode, such as Volume, Effect, Light Color, or Multimedia.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00",
+          "comment": "Volume"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "Effect"
+        },
+        {
+          "offset": "",
+          "value": "0x02",
+          "comment": "Light Color (TBD)"
+        },
+        {
+          "offset": "",
+          "value": "0x03",
+          "comment": "Multimedia"
+        }
+      ]
+    },
+    {
+      "id": "0x0107",
+      "name": "Set Button Lock",
+      "deprecated": true,
+      "payloadDescription": "The Command Payload selects the button lock state; 0x00 locks and 0x01 unlocks.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the button lock state was set successfully.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Lock"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "Unlock"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0187",
+      "name": "Get Button Lock State",
+      "deprecated": true,
+      "payloadDescription": "No Command Payload is required; send an empty payload to read the button lock state.",
+      "ackDescription": "The acknowledgement returns a status code and the current locked or unlocked state.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00",
+          "comment": "Lock"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "Unlock"
+        }
+      ]
+    },
+    {
+      "id": "0x0741",
+      "name": "Set Rapid Trigger Value",
+      "deprecated": true,
+      "payloadDescription": "The Command Payload sets the Rapid Trigger press and release thresholds using separate high and low bytes.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the Rapid Trigger thresholds were set successfully.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Press high byte"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Press low byte"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Release high byte"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Release low byte"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0189",
+      "name": "Get Rapid Trigger Value",
+      "deprecated": true,
+      "payloadDescription": "No Command Payload is required; send an empty payload to read the Rapid Trigger press and release thresholds.",
+      "ackDescription": "The acknowledgement returns a status code plus the high and low bytes for the Rapid Trigger press and release thresholds.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Press high byte"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Press low byte"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Release high byte"
+        },
+        {
+          "offset": "4",
+          "value": "0x00~0xff",
+          "comment": "Release low byte"
+        }
+      ]
+    },
+    {
+      "id": "0x010A",
+      "name": "Set Tachyon mode",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload selects the Tachyon mode state; 0x00 disables it and 0x01 enables it.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether Tachyon mode was set successfully.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Off"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "On"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        }
+      ]
+    },
+    {
+      "id": "0x018A",
+      "name": "Get Tachyon mode",
+      "deprecated": false,
+      "payloadDescription": "No Command Payload is required; send an empty payload to read the Tachyon mode state.",
+      "ackDescription": "The acknowledgement returns a status code and the current Tachyon mode on/off state.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00",
+          "comment": "Off"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "On"
+        }
+      ]
+    },
+    {
+      "id": "0x010B",
+      "name": "SOCD Binding",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload defines the SOCD primary key, secondary key, priority strategy, and Alt pressed behavior.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the SOCD binding was set successfully.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Primary Layer"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Primary Row"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Primary Column"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Secondary Layer"
+        },
+        {
+          "offset": "4",
+          "value": "0x00~0xff",
+          "comment": "Secondary Row"
+        },
+        {
+          "offset": "5",
+          "value": "0x00~0xff",
+          "comment": "Secondary Column"
+        },
+        {
+          "offset": "6",
+          "value": "0x00",
+          "comment": "Last Input Priority"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "Primary Priority"
+        },
+        {
+          "offset": "",
+          "value": "0x02",
+          "comment": "Secondary Priority"
+        },
+        {
+          "offset": "",
+          "value": "0x03",
+          "comment": "Neutral"
+        },
+        {
+          "offset": "7",
+          "value": "0x00",
+          "comment": "Alt pressed behavior Off"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "Alt pressed behavior On"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        }
+      ]
+    },
+    {
+      "id": "0x018B",
+      "name": "Get SOCD Binding",
+      "deprecated": false,
+      "payloadDescription": "No Command Payload is required; send an empty payload to read SOCD bindings sequentially.",
+      "ackDescription": "The acknowledgement uses the status code to report success, sending, or failure, and returns each SOCD binding with index, primary/secondary key locations, priority strategy, and Alt behavior.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "Sending"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Index"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Primary Layer"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Primary Row"
+        },
+        {
+          "offset": "4",
+          "value": "0x00~0xff",
+          "comment": "Primary Column"
+        },
+        {
+          "offset": "5",
+          "value": "0x00~0xff",
+          "comment": "Secondary Layer"
+        },
+        {
+          "offset": "6",
+          "value": "0x00~0xff",
+          "comment": "Secondary Row"
+        },
+        {
+          "offset": "7",
+          "value": "0x00~0xff",
+          "comment": "Secondary Column"
+        },
+        {
+          "offset": "8",
+          "value": "0x00",
+          "comment": "Last Input Priority"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "Primary Priority"
+        },
+        {
+          "offset": "",
+          "value": "0x02",
+          "comment": "Secondary Priority"
+        },
+        {
+          "offset": "",
+          "value": "0x03",
+          "comment": "Neutral"
+        },
+        {
+          "offset": "9",
+          "value": "0x00",
+          "comment": "Alt behavior Off"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "Alt behavior On"
+        }
+      ]
+    },
+    {
+      "id": "0x010C",
+      "name": "Set Multi Point Trigger Binding",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload specifies the target key location, up to four binding slots, and four position trigger values. Each slot contains Key Code, Press Mask, and Release Mask fields. Mask bit0~bit3 map to the four trigger positions: start of press, bottom, bottom just released, and fully released. Position trigger values use 0.1 mm units. Set the same bit in both masks for a single tap; set press at the start position and release at the end position for a held segment.\n\ne.g\nQ: key=0x14, pressMask=0x01, releaseMask=0x08  // Hold from the first position all the way to the last position\nA: key=0x04, pressMask=0x02, releaseMask=0x04  // Hold across the middle segment\nB: key=0x05, pressMask=0x04, releaseMask=0x08  // Hold across the release segment\nC: key=0x06, pressMask=0x08, releaseMask=0x08  // Single-point tap",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the Multi Point Trigger binding was set successfully.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Layer"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Column"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Binding No.1 Key Code"
+        },
+        {
+          "offset": "4",
+          "value": "0x00~0x0f",
+          "comment": "Binding No.1 Press Mask"
+        },
+        {
+          "offset": "5",
+          "value": "0x00~0x0f",
+          "comment": "Binding No.1 Release Mask"
+        },
+        {
+          "offset": "6",
+          "value": "0x00~0xff",
+          "comment": "Binding No.2 Key Code"
+        },
+        {
+          "offset": "7",
+          "value": "0x00~0x0f",
+          "comment": "Binding No.2 Press Mask"
+        },
+        {
+          "offset": "8",
+          "value": "0x00~0x0f",
+          "comment": "Binding No.2 Release Mask"
+        },
+        {
+          "offset": "9",
+          "value": "0x00~0xff",
+          "comment": "Binding No.3 Key Code"
+        },
+        {
+          "offset": "10",
+          "value": "0x00~0x0f",
+          "comment": "Binding No.3 Press Mask"
+        },
+        {
+          "offset": "11",
+          "value": "0x00~0x0f",
+          "comment": "Binding No.3 Release Mask"
+        },
+        {
+          "offset": "12",
+          "value": "0x00~0xff",
+          "comment": "Binding No.4 Key Code"
+        },
+        {
+          "offset": "13",
+          "value": "0x00~0x0f",
+          "comment": "Binding No.4 Press Mask"
+        },
+        {
+          "offset": "14",
+          "value": "0x00~0x0f",
+          "comment": "Binding No.4 Release Mask"
+        },
+        {
+          "offset": "15",
+          "value": "0x01~0x24",
+          "comment": "Position No.1 Trigger Value (Start of Press, 0.1~3.6 mm)"
+        },
+        {
+          "offset": "16",
+          "value": "0x01~0x24",
+          "comment": "Position No.2 Trigger Value (Bottom, 0.1~3.6 mm)"
+        },
+        {
+          "offset": "17",
+          "value": "0x01~0x24",
+          "comment": "Position No.3 Trigger Value (Bottom Just Released, 0.1~3.6 mm)"
+        },
+        {
+          "offset": "18",
+          "value": "0x01~0x24",
+          "comment": "Position No.4 Trigger Value (Fully Released, 0.1~3.6 mm)"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        }
+      ]
+    },
+    {
+      "id": "0x018C",
+      "name": "Get Multi Point Trigger Binding",
+      "deprecated": false,
+      "payloadDescription": "No Command Payload is required; send an empty payload to read Multi Point Trigger bindings sequentially.",
+      "ackDescription": "The acknowledgement uses the status code to report success, sending, or failure, and returns each binding with index, key location, four binding slots, and four position trigger values. Each slot contains Key Code, Press Mask, and Release Mask.\n\ne.g.\nQ: key=0x14, pressMask=0x01, releaseMask=0x08  // Hold from the first position all the way to the last position\nA: key=0x04, pressMask=0x02, releaseMask=0x04  // Hold across the middle segment\nB: key=0x05, pressMask=0x04, releaseMask=0x08  // Hold across the release segment\nC: key=0x06, pressMask=0x08, releaseMask=0x08  // Single-point tap",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "Sending"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Index"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Layer"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "4",
+          "value": "0x00~0xff",
+          "comment": "Column"
+        },
+        {
+          "offset": "5",
+          "value": "0x00~0xff",
+          "comment": "Binding No.1 Key Code"
+        },
+        {
+          "offset": "6",
+          "value": "0x00~0x0f",
+          "comment": "Binding No.1 Press Mask"
+        },
+        {
+          "offset": "7",
+          "value": "0x00~0x0f",
+          "comment": "Binding No.1 Release Mask"
+        },
+        {
+          "offset": "8",
+          "value": "0x00~0xff",
+          "comment": "Binding No.2 Key Code"
+        },
+        {
+          "offset": "9",
+          "value": "0x00~0x0f",
+          "comment": "Binding No.2 Press Mask"
+        },
+        {
+          "offset": "10",
+          "value": "0x00~0x0f",
+          "comment": "Binding No.2 Release Mask"
+        },
+        {
+          "offset": "11",
+          "value": "0x00~0xff",
+          "comment": "Binding No.3 Key Code"
+        },
+        {
+          "offset": "12",
+          "value": "0x00~0x0f",
+          "comment": "Binding No.3 Press Mask"
+        },
+        {
+          "offset": "13",
+          "value": "0x00~0x0f",
+          "comment": "Binding No.3 Release Mask"
+        },
+        {
+          "offset": "14",
+          "value": "0x00~0xff",
+          "comment": "Binding No.4 Key Code"
+        },
+        {
+          "offset": "15",
+          "value": "0x00~0x0f",
+          "comment": "Binding No.4 Press Mask"
+        },
+        {
+          "offset": "16",
+          "value": "0x00~0x0f",
+          "comment": "Binding No.4 Release Mask"
+        },
+        {
+          "offset": "17",
+          "value": "0x01~0x24",
+          "comment": "Position No.1 Trigger Value (Start of Press, 0.1~3.6 mm)"
+        },
+        {
+          "offset": "18",
+          "value": "0x01~0x24",
+          "comment": "Position No.2 Trigger Value (Bottom, 0.1~3.6 mm)"
+        },
+        {
+          "offset": "19",
+          "value": "0x01~0x24",
+          "comment": "Position No.3 Trigger Value (Bottom Just Released, 0.1~3.6 mm)"
+        },
+        {
+          "offset": "20",
+          "value": "0x01~0x24",
+          "comment": "Position No.4 Trigger Value (Fully Released, 0.1~3.6 mm)"
+        }
+      ]
+    },
+    {
+      "id": "0x010D",
+      "name": "Set Toggle Key",
+      "deprecated": true,
+      "payloadDescription": "The Command Payload specifies the layer, row, column, and key code used to configure a Toggle Key.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the Toggle Key was set successfully.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Layer"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Column"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Key Code"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        }
+      ]
+    },
+    {
+      "id": "0x018D",
+      "name": "Get Toggle Key",
+      "deprecated": true,
+      "payloadDescription": "No Command Payload is required; send an empty payload to read Toggle Key settings sequentially.",
+      "ackDescription": "The acknowledgement uses the status code to report success, sending, or failure, and returns each Toggle Key with index, location, and key code.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "Sending"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Index"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Layer"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "4",
+          "value": "0x00~0xff",
+          "comment": "Column"
+        },
+        {
+          "offset": "5",
+          "value": "0x00~0xff",
+          "comment": "Key Code"
+        }
+      ]
+    },
+    {
+      "id": "0x010E",
+      "name": "Set Mod Tap Binding",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload specifies the key location, hold key code, and click key code used to configure a Mod Tap binding.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the Mod Tap binding was set successfully.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Layer"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Column"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Hold Key Code"
+        },
+        {
+          "offset": "4",
+          "value": "0x00~0xff",
+          "comment": "Click Key Code"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        }
+      ]
+    },
+    {
+      "id": "0x018E",
+      "name": "Get Mod Tap Binding",
+      "deprecated": false,
+      "payloadDescription": "No Command Payload is required; send an empty payload to read Mod Tap bindings sequentially.",
+      "ackDescription": "The acknowledgement uses the status code to report success, sending, or failure, and returns each Mod Tap binding with index, location, hold key code, and click key code.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "Sending"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Index"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Layer"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "4",
+          "value": "0x00~0xff",
+          "comment": "Column"
+        },
+        {
+          "offset": "5",
+          "value": "0x00~0xff",
+          "comment": "Hold Key Code"
+        },
+        {
+          "offset": "6",
+          "value": "0x00~0xff",
+          "comment": "Click Key Code"
+        }
+      ]
+    },
+    {
+      "id": "0x010F",
+      "name": "Set Rappy Snappy",
+      "deprecated": true,
+      "payloadDescription": "The Command Payload specifies the primary and secondary key locations used to configure Rappy Snappy.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether Rappy Snappy was set successfully.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Primary Layer"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Primary Row"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Primary Column"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Secondary Layer"
+        },
+        {
+          "offset": "4",
+          "value": "0x00~0xff",
+          "comment": "Secondary Row"
+        },
+        {
+          "offset": "5",
+          "value": "0x00~0xff",
+          "comment": "Secondary Column"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        }
+      ]
+    },
+    {
+      "id": "0x018F",
+      "name": "Get Rappy Snappy",
+      "deprecated": true,
+      "payloadDescription": "No Command Payload is required; send an empty payload to read Rappy Snappy bindings sequentially.",
+      "ackDescription": "The acknowledgement uses the status code to report success, sending, or failure, and returns each primary and secondary key location pair.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "Sending"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Primary Layer"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Primary Row"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Primary Column"
+        },
+        {
+          "offset": "4",
+          "value": "0x00~0xff",
+          "comment": "Secondary Layer"
+        },
+        {
+          "offset": "5",
+          "value": "0x00~0xff",
+          "comment": "Secondary Row"
+        },
+        {
+          "offset": "6",
+          "value": "0x00~0xff",
+          "comment": "Secondary Column"
+        }
+      ]
+    },
+    {
+      "id": "0x0201",
+      "name": "Set Factory Reset",
+      "deprecated": false,
+      "payloadDescription": "No Command Payload is required; send an empty payload to execute a factory reset.",
+      "ackDescription": "The acknowledgement returns a status code indicating whether the factory reset succeeded; this command documents 0x01 as the success code.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x01",
+          "comment": "Success status code (Document deviation from 0x00)"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0282",
+      "name": "Get Dongle Firmware Version",
+      "deprecated": true,
+      "payloadDescription": "No Command Payload is required; send an empty payload to read the dongle firmware version.",
+      "ackDescription": "The acknowledgement returns a status code plus the dongle firmware Major, Minor, and Build version fields.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Major Version"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Minor Version"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Build Version"
+        }
+      ]
+    },
+    {
+      "id": "0x0283",
+      "name": "Get Layer Count",
+      "deprecated": false,
+      "payloadDescription": "No Command Payload is required; send an empty payload to read the number of supported layers.",
+      "ackDescription": "The acknowledgement returns a status code and the layer count.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Number of Layers"
+        }
+      ]
+    },
+    {
+      "id": "0x0204",
+      "name": "Keymap Reset",
+      "deprecated": false,
+      "payloadDescription": "No Command Payload is required; send an empty payload to reset the keymap settings.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the keymap reset succeeded.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0205",
+      "name": "Set Lighting Value",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload uses the type field to select Bright, Effect, Speed, or Color, followed by the value fields required by that type.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the lighting value was set successfully.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x01~0x04",
+          "comment": "1:Bright, 2:Effect, 3:Speed, 4:Color"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Bright : 0x00~0x64\n\nEffect :\n0x00 : 0ff\n0x01 : Static\n0x02 : Wave_Rainbow_Left\n0x03 : Wave_Rainbow_Right\n0x04 : Wave_Sunset_Left\n0x05 : Wave_Sunset_Right\n0x06 : Wave_Aurora_Left\n0x07 : Wave_Aurora_Right\n0x08 : Wave_Electro_Left\n0x09 : Wave_Electro_Right\n0x0a : Wave_Lemon_Left\n0x0b : Wave_Lemon_Right\n0x0c : Cycle_Rainbow\n0x0d : Cycle_Sunset\n0x0e : Cycle_Aurora\n0x0f : Cycle_Electro\n0x10 : Cycle_Lemon\n0x11 : Rain Drop(Solid)\n0x12 : Rain Drop(Random)\n0x13 : Breathing(Solid)\n0x14 : Breathing(Random)\n\nSpeed : 0x00~0x64\n\nColor: 0x00~0Xff (Color R)"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Color G"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Color B"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0285",
+      "name": "Get Lighting Value",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload selects which lighting value to read, such as Bright, Effect, Speed, or Color.",
+      "ackDescription": "The acknowledgement returns a status code and the requested lighting value; color queries return RGB values.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x01~0x04",
+          "comment": "1:Bright, 2:Effect, 3:Speed, 4:Color"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Bright : 0x00~0x64\n\nEffect :\n0x00 : 0ff\n0x01 : Static\n0x02 : Wave_Rainbow_Left\n0x03 : Wave_Rainbow_Right\n0x04 : Wave_Sunset_Left\n0x05 : Wave_Sunset_Right\n0x06 : Wave_Aurora_Left\n0x07 : Wave_Aurora_Right\n0x08 : Wave_Electro_Left\n0x09 : Wave_Electro_Right\n0x0a : Wave_Lemon_Left\n0x0b : Wave_Lemon_Right\n0x0c : Cycle_Rainbow\n0x0d : Cycle_Sunset\n0x0e : Cycle_Aurora\n0x0f : Cycle_Electro\n0x10 : Cycle_Lemon\n0x11 : Rain Drop(Solid)\n0x12 : Rain Drop(Random)\n0x13 : Breathing(Solid)\n0x14 : Breathing(Random)\n\nSpeed : 0x00~0x64\n\nColor: 0x00~0Xff (Color R)"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Color G"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Color B"
+        }
+      ]
+    },
+    {
+      "id": "0x0206",
+      "name": "Save Lighting",
+      "deprecated": false,
+      "payloadDescription": "No Command Payload is required; send an empty payload to save the current lighting settings.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the lighting settings were saved successfully.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0287",
+      "name": "Get Macro Count",
+      "deprecated": true,
+      "payloadDescription": "No Command Payload is required; send an empty payload to read the current macro count.",
+      "ackDescription": "The acknowledgement returns a status code and the number of macros.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Number of Macros"
+        }
+      ]
+    },
+    {
+      "id": "0x0288",
+      "name": "Get Macro Buffer Size",
+      "deprecated": true,
+      "payloadDescription": "No Command Payload is required; send an empty payload to read the macro buffer capacity.",
+      "ackDescription": "The acknowledgement returns a status code and the macro buffer size as a big-endian Uint16 value.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "1-2",
+          "value": "0x0000~0xffff",
+          "comment": "Buffer Size (Uint16, Big Endian)"
+        }
+      ]
+    },
+    {
+      "id": "0x0209",
+      "name": "Set Macro Buffer",
+      "deprecated": true,
+      "payloadDescription": "The Command Payload specifies the macro buffer offset, write size, and macro data used for chunked macro writes.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the macro buffer write succeeded.",
+      "payload": [
+        {
+          "offset": "0-1",
+          "value": "0x0000~0xffff",
+          "comment": "Offset (Uint16, Big Endian)"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Size"
+        },
+        {
+          "offset": "3...",
+          "value": "Data",
+          "comment": "Macro Data"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0289",
+      "name": "Get Macro Buffer",
+      "deprecated": true,
+      "payloadDescription": "The Command Payload specifies the macro buffer offset and size to read.",
+      "ackDescription": "The acknowledgement returns a status code, the actual offset, the data size, and the macro data.",
+      "payload": [
+        {
+          "offset": "0-1",
+          "value": "0x0000~0xffff",
+          "comment": "Offset (Uint16, Big Endian)"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Size"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "1-2",
+          "value": "0x0000~0xffff",
+          "comment": "Offset (Uint16, Big Endian)"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Size"
+        },
+        {
+          "offset": "4...",
+          "value": "0x00~0xff",
+          "comment": "Macro Data"
+        }
+      ]
+    },
+    {
+      "id": "0x020A",
+      "name": "Set NKRO State",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload selects the NKRO state; 0 means 6KRO and 1 enables NKRO.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the NKRO state was set successfully.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0~00~0x01",
+          "comment": "0: Disabled (6KRO), 1: Enabled"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x028A",
+      "name": "Get NKRO State",
+      "deprecated": false,
+      "payloadDescription": "No Command Payload is required; send an empty payload to read the NKRO state.",
+      "ackDescription": "The acknowledgement returns a status code and the NKRO enabled state.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0x01",
+          "comment": "0: Disabled (6KRO), 1: Enabled"
+        }
+      ]
+    },
+    {
+      "id": "0x020B",
+      "name": "Set Lock LED Color",
+      "deprecated": true,
+      "payloadDescription": "The Command Payload specifies the lock LED type and color ID used to set the Caps, Fn, Win, Num, or Scroll indicator color.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the lock LED color was set successfully.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0x04",
+          "comment": "0:Caps, 1:Fn, 2:Win, 3:Num, 4:Scroll"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0x05",
+          "comment": "0:White, 1:Yel, 2:Grn, 3:Blu, 4:Red, 5:Pur"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x028B",
+      "name": "Get Lock LED Color",
+      "deprecated": true,
+      "payloadDescription": "No Command Payload is required; send an empty payload to read all lock LED colors.",
+      "ackDescription": "The acknowledgement returns a status code plus the color IDs for Caps, Fn, Win, Num, and Scroll.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "1-5",
+          "value": "0x00~0x04",
+          "comment": "Color IDs for Caps, Fn, Win, Num, Scroll"
+        }
+      ]
+    },
+    {
+      "id": "0x020C",
+      "name": "Set Sleep Enable",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload selects whether sleep mode is enabled; 0 disables it and 1 enables it.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the sleep setting was applied successfully.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0x01",
+          "comment": "0: Disabled, 1: Enabled"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x028C",
+      "name": "Get Sleep Enable",
+      "deprecated": false,
+      "payloadDescription": "No Command Payload is required; send an empty payload to read whether sleep mode is enabled.",
+      "ackDescription": "The acknowledgement returns a status code and the sleep enabled state.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0x01",
+          "comment": "0: Disabled, 1: Enabled"
+        }
+      ]
+    },
+    {
+      "id": "0x020D",
+      "name": "Set Dimming Time",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload specifies the dimming timeout in minutes, with the low byte sent first.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the dimming time was set successfully.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Low Byte (minutes & 0xFF)"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "High Byte (minutes >> 8)"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x028D",
+      "name": "Get Dimming Time",
+      "deprecated": false,
+      "payloadDescription": "No Command Payload is required; send an empty payload to read the dimming timeout.",
+      "ackDescription": "The acknowledgement returns a status code and the dimming time in minutes, with the low byte first.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Low Byte (minutes & 0xFF)"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "High Byte (minutes >> 8)"
+        }
+      ]
+    },
+    {
+      "id": "0x020E",
+      "name": "Set Turn Off Time",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload specifies the turn-off timeout in minutes, with the low byte sent first.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the turn-off time was set successfully.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Low Byte (minutes & 0xFF)"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "High Byte (minutes >> 8)"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x028E",
+      "name": "Get Turn Off Time",
+      "deprecated": false,
+      "payloadDescription": "No Command Payload is required; send an empty payload to read the turn-off timeout.",
+      "ackDescription": "The acknowledgement returns a status code and the turn-off time in minutes, with the low byte first.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Low Byte (minutes & 0xFF)"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "High Byte (minutes >> 8)"
+        }
+      ]
+    },
+    {
+      "id": "0x020F",
+      "name": "Set Wired Scan Rate",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload specifies the wired scan rate index.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the wired scan rate was set successfully.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Scan Rate Index"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x028F",
+      "name": "Get Wired Scan Rate",
+      "deprecated": false,
+      "payloadDescription": "No Command Payload is required; send an empty payload to read the wired scan rate index.",
+      "ackDescription": "The acknowledgement returns a status code and the wired scan rate index.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Scan Rate Index"
+        }
+      ]
+    },
+    {
+      "id": "0x0301",
+      "name": "Set Wired Polling Rate",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload specifies the wired polling rate index.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the wired polling rate was set successfully.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Polling Rate Index"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0381",
+      "name": "Get Wired Polling Rate",
+      "deprecated": false,
+      "payloadDescription": "No Command Payload is required; send an empty payload to read the wired polling rate index.",
+      "ackDescription": "The acknowledgement returns a status code and the wired polling rate index.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Polling Rate Index"
+        }
+      ]
+    },
+    {
+      "id": "0x0302",
+      "name": "Set 2.4G Scan Rate",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload specifies the 2.4G scan rate index.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the 2.4G scan rate was set successfully.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Scan Rate Index"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0382",
+      "name": "Get 2.4G Scan Rate",
+      "deprecated": false,
+      "payloadDescription": "No Command Payload is required; send an empty payload to read the 2.4G scan rate index.",
+      "ackDescription": "The acknowledgement returns a status code and the 2.4G scan rate index.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Scan Rate Index"
+        }
+      ]
+    },
+    {
+      "id": "0x0303",
+      "name": "Set 2.4G Polling Rate",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload specifies the 2.4G polling rate index.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the 2.4G polling rate was set successfully.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Polling Rate Index"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0383",
+      "name": "Get 2.4G Polling Rate",
+      "deprecated": false,
+      "payloadDescription": "No Command Payload is required; send an empty payload to read the 2.4G polling rate index.",
+      "ackDescription": "The acknowledgement returns a status code and the 2.4G polling rate index.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Polling Rate Index"
+        }
+      ]
+    },
+    {
+      "id": "0x0304",
+      "name": "Set Trigger Layer Lighting",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload uses the type field to select Trigger Layer Lighting Bright, Effect, Speed, Color, or Width, followed by the corresponding value fields.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether Trigger Layer Lighting was set successfully.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x01~0x05",
+          "comment": "1:Bright, 2:Effect, 3:Speed, 4:Color 5: Width"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Bright : 0x00~0x64\n\nEffect :\n0x00 : 0ff\n0x01 : Ripple(Solid)\n0x02 : Ripple(Random)\n0x03 : Reactive(Solid)\n0x04 : Reactive(Random)\n\nSpeed : 0x00~0x64\n\nColor: 0x00~0Xff (Color R)\n\nWidth:\n0x00 : 2 key (Slim)\n0x01 : 3 key (Normal)\n0x02 : 4 key (Thick)"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Color G"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Color B"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success"
+        }
+      ]
+    },
+    {
+      "id": "0x0384",
+      "name": "Get Trigger Layer Lighting",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload selects which Trigger Layer Lighting value to read, such as Bright, Effect, Speed, Color, or Width.",
+      "ackDescription": "The acknowledgement returns a status code and the requested Trigger Layer Lighting value.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x01~0x05",
+          "comment": "1:Bright, 2:Effect, 3:Speed, 4:Color 5: Width"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Bright : 0x00~0x64\n\nEffect :\n0x00 : 0ff\n0x01 : Ripple(Solid)\n0x02 : Ripple(Random)\n0x03 : Reactive(Solid)\n0x04 : Reactive(Random)\n\nSpeed : 0x00~0x64\n\nColor: 0x00~0Xff (Color R)\n\nWidth:\n0x00 : 2 key (Slim)\n0x01 : 3 key (Normal)\n0x02 : 4 key (Thick)"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Color G"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Color B"
+        }
+      ]
+    },
+    {
+      "id": "0x0305",
+      "name": "Set Actuation State",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload selects the Actuation feature state; 0x00 disables it and 0x01 enables it.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the Actuation state was set successfully.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0x01",
+          "comment": "0x00 : Off\n0x01: On"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0385",
+      "name": "Get Actuation State",
+      "deprecated": false,
+      "payloadDescription": "No Command Payload is required; send an empty payload to read the Actuation feature state.",
+      "ackDescription": "The acknowledgement returns a status code and the Actuation on/off state.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0x01",
+          "comment": "0x00 : Off\n0x01: On"
+        }
+      ]
+    },
+    {
+      "id": "0x0306",
+      "name": "Set Actuation Value",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload specifies the row, column, and actuation distance used to configure a single key actuation point.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the single-key Actuation Value was set successfully.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Column"
+        },
+        {
+          "offset": "2~3",
+          "value": "0x0000~0xffff",
+          "comment": "Actuation Value(mm)"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0386",
+      "name": "Get Actuation Value",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload specifies the row and column of the key whose Actuation Value should be read.",
+      "ackDescription": "The acknowledgement returns a status code, the key location, and the Actuation Value.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Column"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Column"
+        },
+        {
+          "offset": "3~4",
+          "value": "0x0000~0xffff",
+          "comment": "Actuation Value(mm)"
+        }
+      ]
+    },
+    {
+      "id": "0x0307",
+      "name": "Set All Actuation",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload specifies the shared Actuation Value used to set the actuation point for all keys at once.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the all-key actuation setting was applied successfully.",
+      "payload": [
+        {
+          "offset": "0~1",
+          "value": "0x0000~0xffff",
+          "comment": "Autuation (mm)"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0387",
+      "name": "Get All Actuation",
+      "deprecated": false,
+      "payloadDescription": "No Command Payload is required; send an empty payload to read all key Actuation Values sequentially.",
+      "ackDescription": "The acknowledgement uses the status code to report success, sending, or failure, and returns each row, column, and Actuation Value.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "Sending"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0ff",
+          "comment": "Column"
+        },
+        {
+          "offset": "3~4",
+          "value": "0x0000~0xffff",
+          "comment": "Autuation (mm)"
+        },
+        {
+          "offset": "..",
+          "value": "..",
+          "comment": "Repeats until done"
+        }
+      ]
+    },
+    {
+      "id": "0x0308",
+      "name": "Save Actuation Settings",
+      "deprecated": false,
+      "payloadDescription": "No Command Payload is required; send an empty payload to save Actuation settings.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the Actuation settings were saved successfully.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0309",
+      "name": "Set Visual Feedback State",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload selects the Visual Feedback feature state; 0x00 disables it and 0x01 enables it.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the Visual Feedback state was set successfully.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0x01",
+          "comment": "0x00: Off\n0x01: On"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0389",
+      "name": "Get Visual Feedback State",
+      "deprecated": false,
+      "payloadDescription": "No Command Payload is required; send an empty payload to read the Visual Feedback feature state.",
+      "ackDescription": "The acknowledgement returns a status code and the Visual Feedback on/off state.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0x01",
+          "comment": "0x00: Off\n0x01: On"
+        }
+      ]
+    },
+    {
+      "id": "0x0108",
+      "name": "Set Rapid Trigger State",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload selects the Rapid Trigger mode: off, press-only, or press-and-release.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the Rapid Trigger state was set successfully.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Off"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "On (Only Press)"
+        },
+        {
+          "offset": "",
+          "value": "0x02",
+          "comment": "On (Press and Release)"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0188",
+      "name": "Get Rapid Trigger State",
+      "deprecated": false,
+      "payloadDescription": "No Command Payload is required; send an empty payload to read the Rapid Trigger feature state.",
+      "ackDescription": "The acknowledgement returns a status code and the current Rapid Trigger mode.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00",
+          "comment": "Off"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "On (Only Press)"
+        },
+        {
+          "offset": "",
+          "value": "0x02",
+          "comment": "On (Press and Release)"
+        }
+      ]
+    },
+    {
+      "id": "0x030A",
+      "name": "Set Rapid Trigger Press Value ref 0x0108",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload specifies the row, column, and Rapid Trigger Press Value used to set a single-key press threshold.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the Rapid Trigger Press Value was set successfully.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Column"
+        },
+        {
+          "offset": "2~3",
+          "value": "0x0000~0xffff",
+          "comment": "Rapid Trigger  Press Value(mm)"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x038A",
+      "name": "Get Rapid Trigger Press Value ref 0x0108",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload specifies the row and column of the key whose Rapid Trigger Press Value should be read.",
+      "ackDescription": "The acknowledgement returns a status code, the key location, and the Rapid Trigger Press Value.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Column"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Column"
+        },
+        {
+          "offset": "3~4",
+          "value": "0x0000~0xffff",
+          "comment": "Rapid Trigger Press Value(mm)"
+        }
+      ]
+    },
+    {
+      "id": "0x030B",
+      "name": "Set Rapid Trigger Release Value ref 0x0108",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload specifies the row, column, and Rapid Trigger Release Value used to set a single-key release threshold.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the Rapid Trigger Release Value was set successfully.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Column"
+        },
+        {
+          "offset": "2~3",
+          "value": "0x0000~0xffff",
+          "comment": "Rapid Trigger Release Value (mm)"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x038B",
+      "name": "Get Rapid Trigger Release Value ref 0x0108",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload specifies the row and column of the key whose Rapid Trigger Release Value should be read.",
+      "ackDescription": "The acknowledgement returns a status code, the key location, and the Rapid Trigger Release Value.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Column"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Column"
+        },
+        {
+          "offset": "2~3",
+          "value": "0x0000~0xffff",
+          "comment": "Rapid Trigger Release Value (mm)"
+        }
+      ]
+    },
+    {
+      "id": "0x038C",
+      "name": "Get All Rapid Trigger Release Value",
+      "deprecated": false,
+      "payloadDescription": "No Command Payload is required; send an empty payload to read all Rapid Trigger press and release values sequentially.",
+      "ackDescription": "The acknowledgement uses the status code to report success, sending, or failure, and returns each row, column, Press Value, and Release Value.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "Sending"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0ff",
+          "comment": "Column"
+        },
+        {
+          "offset": "3~4",
+          "value": "0x0000~0xffff",
+          "comment": "Rapid Trigger Press Value (mm)"
+        },
+        {
+          "offset": "5~6",
+          "value": "0x0000~0xffff",
+          "comment": "Rapid Trigger Release Value (mm)"
+        },
+        {
+          "offset": "..",
+          "value": "..",
+          "comment": "Repeats until done"
+        }
+      ]
+    },
+    {
+      "id": "0x030D",
+      "name": "Set Rapid Trigger Continuous State",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload selects the Rapid Trigger Continuous feature state; 0x00 disables it and 0x01 enables it.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the Rapid Trigger Continuous state was set successfully.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0x01",
+          "comment": "0x00 : Off\n0x01: On"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x038D",
+      "name": "Get Rapid Trigger Continuous State",
+      "deprecated": false,
+      "payloadDescription": "No Command Payload is required; send an empty payload to read the Rapid Trigger Continuous state.",
+      "ackDescription": "The acknowledgement returns a status code and the Rapid Trigger Continuous on/off state.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0x01",
+          "comment": "0x00 : Off\n0x01: On"
+        }
+      ]
+    },
+    {
+      "id": "0x030E",
+      "name": "Save Rapid Trigger Settings",
+      "deprecated": false,
+      "payloadDescription": "No Command Payload is required; send an empty payload to save Rapid Trigger settings.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the Rapid Trigger settings were saved successfully.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x030F",
+      "name": "Set Gamepad Curve",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload specifies the four input/output control point pairs for the Gamepad curve.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the Gamepad curve was set successfully.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x01~0x23",
+          "comment": "In0 (X - 0.1mm ~ 3.5mm) -How Deep a Key is Pressed"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Out0 (Y - 0 ~ 255) -  Analog Value"
+        },
+        {
+          "offset": "2",
+          "value": "0x01~0x23",
+          "comment": "In1 (X - 0.1mm ~ 3.5mm) -How Deep a Key is Pressed"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Out1 (Y - 0 ~ 255) -  Analog Value"
+        },
+        {
+          "offset": "4",
+          "value": "0x01~0x23",
+          "comment": "In2 (X - 0.1mm ~ 3.5mm) -How Deep a Key is Pressed"
+        },
+        {
+          "offset": "5",
+          "value": "0x00~0xff",
+          "comment": "Out2 (Y - 0 ~ 255) -  Analog Value"
+        },
+        {
+          "offset": "6",
+          "value": "0x01~0x23",
+          "comment": "In3 (X - 0.1mm ~ 3.5mm) -How Deep a Key is Pressed"
+        },
+        {
+          "offset": "7",
+          "value": "0x00~0xff",
+          "comment": "Out3 (Y - 0 ~ 255) -  Analog Value"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x38F",
+      "name": "Get Gamepad Curve",
+      "deprecated": false,
+      "payloadDescription": "No Command Payload is required; send an empty payload to read the Gamepad curve control points.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the Gamepad curve was set successfully.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x01~0x23",
+          "comment": "In0 (X - 0.1mm ~ 3.5mm) -How Deep a Key is Pressed"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Out0 (Y - 0 ~ 255) -  Analog Value"
+        },
+        {
+          "offset": "3",
+          "value": "0x01~0x23",
+          "comment": "In1 (X - 0.1mm ~ 3.5mm) -How Deep a Key is Pressed"
+        },
+        {
+          "offset": "4",
+          "value": "0x00~0xff",
+          "comment": "Out1 (Y - 0 ~ 255) -  Analog Value"
+        },
+        {
+          "offset": "5",
+          "value": "0x01~0x23",
+          "comment": "In2 (X - 0.1mm ~ 3.5mm) -How Deep a Key is Pressed"
+        },
+        {
+          "offset": "6",
+          "value": "0x00~0xff",
+          "comment": "Out2 (Y - 0 ~ 255) -  Analog Value"
+        },
+        {
+          "offset": "7",
+          "value": "0x01~0x23",
+          "comment": "In3 (X - 0.1mm ~ 3.5mm) -How Deep a Key is Pressed"
+        },
+        {
+          "offset": "8",
+          "value": "0x00~0xff",
+          "comment": "Out3 (Y - 0 ~ 255) -  Analog Value"
+        }
+      ]
+    },
+    {
+      "id": "0x0401",
+      "name": "Set Gamepad Mode",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload selects the Gamepad Mode state; 0x00 disables it and 0x01 enables it.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether Gamepad Mode was set successfully.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0x01",
+          "comment": "0x00: Off\n0x01: On"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0481",
+      "name": "Get Gamepad Mode",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload carries the Gamepad Mode state field used to read or synchronize the current mode.",
+      "ackDescription": "The acknowledgement returns a status code and the Gamepad Mode on/off state.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0x01",
+          "comment": "0x00: Off\n0x01: On"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0x01",
+          "comment": "0x00: Off\n0x01: On"
+        }
+      ]
+    },
+    {
+      "id": "0x0402",
+      "name": "Set Gamepad Override ",
+      "deprecated": true,
+      "payloadDescription": "The Command Payload selects whether Gamepad Override is enabled to control keyboard override or passthrough behavior.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether Gamepad Override was set successfully.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0x01",
+          "comment": "0x00: Disable, 0x01: Enable (Override Keyboard Keys / Passthrough)"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0482",
+      "name": "Get Gamepad Override",
+      "deprecated": true,
+      "payloadDescription": "No Command Payload is required; send an empty payload to read the Gamepad Override state.The Command Payload specifies the setting type to read.",
+      "ackDescription": "The acknowledgement returns a status code and the Gamepad Override enabled state.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0x01",
+          "comment": "0x00: Disable, 0x01: Enable (Override Keyboard Keys)"
+        }
+      ]
+    },
+    {
+      "id": "0x040B",
+      "name": "Set Gamepad Key Mapping",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload specifies the layer, row, column, and 16-bit Gamepad key code used to program a single Gamepad key mapping. The Gamepad key mapping is stored separately from the standard keyboard key mapping.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the Gamepad key mapping was written successfully.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Layer"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Column"
+        },
+        {
+          "offset": "3~4",
+          "value": "0x0000, 0x6000~0x6018",
+          "comment": "Gamepad Key Code (LE uint16).\n0x0000: None/Clear mapping.\n0x6000: A, \n0x6001: B, \n0x6002: X, \n0x6003: Y, \n0x6004: Start, \n0x6005: Select, \n0x6006: Menu, \n0x6007: LB, \n0x6008: RB, \n0x6009: L3, \n0x600A: R3, \n0x600B: D-Pad Up, \n0x600C: D-Pad Down, \n0x600D: D-Pad Left, \n0x600E: D-Pad Right, \n0x600F: L X-, \n0x6010: L X+, \n0x6011: L Y-, \n0x6012: L Y+, \n0x6013: R X-, \n0x6014: R X+, \n0x6015: R Y-, \n0x6016: R Y+, \n0x6017: LT, \n0x6018: RT"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        }
+      ]
+    },
+    {
+      "id": "0x048B",
+      "name": "Get Gamepad Key Mapping",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload specifies the layer, row, and column of the Gamepad key mapping to read.",
+      "ackDescription": "The acknowledgement returns a status code plus the requested layer, row, column, and 16-bit Gamepad key code.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Layer"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Column"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Layer"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Column"
+        },
+        {
+          "offset": "4~5",
+          "value": "0x0000, 0x6000~0x6018",
+          "comment": "Gamepad Key Code (LE uint16).\n0x0000: None/Clear mapping.\n0x6000: A, \n0x6001: B, \n0x6002: X, \n0x6003: Y, \n0x6004: Start, \n0x6005: Select, \n0x6006: Menu, \n0x6007: LB, \n0x6008: RB, \n0x6009: L3, \n0x600A: R3, \n0x600B: D-Pad Up, \n0x600C: D-Pad Down, \n0x600D: D-Pad Left, \n0x600E: D-Pad Right, \n0x600F: L X-, \n0x6010: L X+, \n0x6011: L Y-, \n0x6012: L Y+, \n0x6013: R X-, \n0x6014: R X+, \n0x6015: R Y-, \n0x6016: R Y+, \n0x6017: LT, \n0x6018: RT"
+        }
+      ]
+    },
+    {
+      "id": "0x048C",
+      "name": "Get Gamepad All Key Mapping",
+      "deprecated": false,
+      "payloadDescription": "No Command Payload is required; send an empty payload to read all Gamepad key mappings sequentially.",
+      "ackDescription": "The acknowledgement uses the status code to report success, sending, or failure, and returns each Gamepad mapping with layer, row, column, and 16-bit Gamepad key code fields.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "Sending"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Layer"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Column"
+        },
+        {
+          "offset": "4~5",
+          "value": "0x0000, 0x6000~0x6018",
+          "comment": "Gamepad Key Code (LE uint16).\n0x0000: None/Clear mapping.\n0x6000: A, \n0x6001: B, \n0x6002: X, \n0x6003: Y, \n0x6004: Start, \n0x6005: Select, \n0x6006: Menu, \n0x6007: LB, \n0x6008: RB, \n0x6009: L3, \n0x600A: R3, \n0x600B: D-Pad Up, \n0x600C: D-Pad Down, \n0x600D: D-Pad Left, \n0x600E: D-Pad Right, \n0x600F: L X-, \n0x6010: L X+, \n0x6011: L Y-, \n0x6012: L Y+, \n0x6013: R X-, \n0x6014: R X+, \n0x6015: R Y-, \n0x6016: R Y+, \n0x6017: LT, \n0x6018: RT"
+        },
+        {
+          "offset": "..",
+          "value": "..",
+          "comment": "Repeats until done"
+        }
+      ]
+    },
+    {
+      "id": "0x040D",
+      "name": "Set Gamepad Feature Flags",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload configures gamepad behavior using a bitmask for Keyboard Passthrough, Gamepad Override, SOCD Joystick, and Angle Adjustment.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the gamepad feature flags were set successfully.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0x0f",
+          "comment": "Gamepad feature flag bitmask:\nbit0: Keyboard Passthrough\nbit1: Gamepad Override\nbit2: SOCD Joystick\nbit3: Angle Adjustment\n\n0: Disabled, 1: Enabled"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        }
+      ]
+    },
+    {
+      "id": "0x048D",
+      "name": "Get Gamepad Feature Flags",
+      "deprecated": false,
+      "payloadDescription": "No Command Payload is required; send an empty payload to read the gamepad feature flags.",
+      "ackDescription": "The acknowledgement returns a status code and the current gamepad feature flags.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0x0f",
+          "comment": "Gamepad feature flag bitmask:\nbit0: Keyboard Passthrough\nbit1: Gamepad Override\nbit2: SOCD Joystick\nbit3: Angle Adjustment\n\n0: Disabled, 1: Enabled"
+        }
+      ]
+    },
+    {
+      "id": "0x040E",
+      "name": "Set Gamepad Angle Adjustment",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload specifies the diagonal deflection angle in degrees (0 to 90) used to adjust diagonal movement alignment.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the angle adjustment was configured successfully.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0x5a",
+          "comment": "Deflection angle in degrees (0~90, default 45)"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        }
+      ]
+    },
+    {
+      "id": "0x048E",
+      "name": "Get Gamepad Angle Adjustment",
+      "deprecated": false,
+      "payloadDescription": "No Command Payload is required; send an empty payload to read the diagonal deflection angle value.",
+      "ackDescription": "The acknowledgement returns a status code plus the current deflection angle value.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0x5a",
+          "comment": "Deflection angle in degrees (0~90, default 45)"
+        }
+      ]
+    },
+    {
+      "id": "0x0483",
+      "name": "Get Macro Info",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload specifies the Macro Index whose summary information should be read.",
+      "ackDescription": "The acknowledgement returns a status code, Macro Index, and Total Step Count.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0x09",
+          "comment": "Macro Index (0~9)"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0x09",
+          "comment": "Macro Index"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xB4",
+          "comment": "Total Step Count (0~180)"
+        }
+      ]
+    },
+    {
+      "id": "0x0484",
+      "name": "Read Macro Chunk",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload specifies the Macro Index, start step, and requested step count used to read a macro chunk.",
+      "ackDescription": "The acknowledgement returns a status code, Macro Index, start step, actual received step count, and step data.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0x09",
+          "comment": "Macro Index (0~9)"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xB4",
+          "comment": "Start Step Index"
+        },
+        {
+          "offset": "2",
+          "value": "0x01~0x04",
+          "comment": "Steps to Request (Max 4)"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0x09",
+          "comment": "Macro Index"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xB4",
+          "comment": "Start Step Index"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0x04",
+          "comment": "Actual Received Steps"
+        },
+        {
+          "offset": "4~...",
+          "value": "Step Data",
+          "comment": "6 bytes per step: [DelayType(0=Fixed,1=Random), DelayMS_L, DelayMS_H, Action(0=None,1=Press,2=Release), KC_L, KC_H]"
+        }
+      ]
+    },
+    {
+      "id": "0x0405",
+      "name": "Delete Macro",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload specifies the Macro Index to delete.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the macro was deleted successfully.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0x09",
+          "comment": "Macro Index (0~9)"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0406",
+      "name": "Write Macro Field",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload specifies the Macro Index, Step Index, Field ID, and value bytes used to update one macro field.",
+      "ackDescription": "The acknowledgement returns a status code and Macro Index indicating whether the field write succeeded.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0x09",
+          "comment": "Macro Index (0~9)"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xB3",
+          "comment": "Step Index (0~179)"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0x05",
+          "comment": "Field ID (0:KeyCode, 1:DelayType, 2:DelayMS, 3:Action, 4:StepCount, 5:ClearStep)"
+        },
+        {
+          "offset": "3~...",
+          "value": "Value Bytes",
+          "comment": "Value corresponding to Field ID"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0x09",
+          "comment": "Macro Index"
+        }
+      ]
+    },
+    {
+      "id": "0x0407",
+      "name": " Write Macro Bulk",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload specifies the Macro Index, start step, and up to four step records used for bulk macro writing.",
+      "ackDescription": "The acknowledgement returns a status code and Macro Index indicating whether the bulk write succeeded.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0x09",
+          "comment": "macro_idx"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xb3",
+          "comment": "Start Step"
+        },
+        {
+          "offset": "2",
+          "value": "0x01~0x04",
+          "comment": "0x01: count= 1 step\n0x02: count= 2 step\n0x03: count= 3 step\n0x04: count= 4 step\n"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0x01",
+          "comment": "0x00: Delay Type = Fixed\n0x01: Delay Type = Random"
+        },
+        {
+          "offset": "4~5",
+          "value": "0x0000~0xffff",
+          "comment": "DelayMS  byte (LE uint16, 0.65535 ms, after action)"
+        },
+        {
+          "offset": "6",
+          "value": "0x00~0x02",
+          "comment": "0x00: Action = None\n0x01: Action = Press\n0x02:  Action = Release"
+        },
+        {
+          "offset": "7~8",
+          "value": "0x000~0xffff",
+          "comment": "KeyCode"
+        },
+        {
+          "offset": "..26",
+          "value": "",
+          "comment": "Repeated offsets 2-8 are valid when count > 1"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0x09",
+          "comment": "macro_idx"
+        }
+      ]
+    },
+    {
+      "id": "0x0408",
+      "name": "Set SOCD (Depth-Based) Binding",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload defines a depth-based SOCD binding with primary/secondary key locations, Rapid Trigger state, press/release values, and actuation point.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the depth-based SOCD binding was set successfully.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Primary Layer"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Primary Row"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Primary Column"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Secondary Layer"
+        },
+        {
+          "offset": "4",
+          "value": "0x00~0xff",
+          "comment": "Secondary Row"
+        },
+        {
+          "offset": "5",
+          "value": "0x00~0xff",
+          "comment": "Secondary Column"
+        },
+        {
+          "offset": "6",
+          "value": "0x00",
+          "comment": "Rapid Trigger Off"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "Rapid Trigger On (Press only)"
+        },
+        {
+          "offset": "",
+          "value": "0x02",
+          "comment": "Rapid Trigger On (Press and Release)"
+        },
+        {
+          "offset": "7~8",
+          "value": "0x0000~0xffff",
+          "comment": "Rapid Trigger Press Value (LE uint16)"
+        },
+        {
+          "offset": "9~10",
+          "value": "0x0000~0xffff",
+          "comment": "Rapid Trigger Release Value (LE uint16)"
+        },
+        {
+          "offset": "11~12",
+          "value": "0x0000~0xffff",
+          "comment": "Actuation Point Value (LE uint16)"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0488",
+      "name": "Get SOCD (Depth-Based) Binding",
+      "deprecated": false,
+      "payloadDescription": "No Command Payload is required; send an empty payload to read depth-based SOCD bindings sequentially.",
+      "ackDescription": "The acknowledgement uses the status code to report success, sending, or failure, and returns each depth-based SOCD binding with index, primary/secondary key locations, Rapid Trigger state, press/release values, and actuation point.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "Sending"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Index"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Primary Layer"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Primary Row"
+        },
+        {
+          "offset": "4",
+          "value": "0x00~0xff",
+          "comment": "Primary Column"
+        },
+        {
+          "offset": "5",
+          "value": "0x00~0xff",
+          "comment": "Secondary Layer"
+        },
+        {
+          "offset": "6",
+          "value": "0x00~0xff",
+          "comment": "Secondary Row"
+        },
+        {
+          "offset": "7",
+          "value": "0x00~0xff",
+          "comment": "Secondary Column"
+        },
+        {
+          "offset": "8",
+          "value": "0x00",
+          "comment": "Rapid Trigger Off"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "Rapid Trigger On (Press only)"
+        },
+        {
+          "offset": "",
+          "value": "0x02",
+          "comment": "Rapid Trigger On (Press and Release)"
+        },
+        {
+          "offset": "9~10",
+          "value": "0x0000~0xffff",
+          "comment": "Rapid Trigger Press Value (LE uint16)"
+        },
+        {
+          "offset": "11~12",
+          "value": "0x0000~0xffff",
+          "comment": "Rapid Trigger Release Value (LE uint16)"
+        },
+        {
+          "offset": "13~14",
+          "value": "0x0000~0xffff",
+          "comment": "Actuation Point Value (LE uint16)"
+        }
+      ]
+    },
+    {
+      "id": "0x0409",
+      "name": "Delete Binding",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload specifies the layer, row, and column of the binding to delete.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the binding was deleted successfully.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0xff",
+          "comment": "Layer"
+        },
+        {
+          "offset": "",
+          "value": "0x00~0xff",
+          "comment": "Row"
+        },
+        {
+          "offset": "",
+          "value": "0x00~0xff",
+          "comment": "Column"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        }
+      ]
+    },
+    {
+      "id": "0x048A",
+      "name": "Get Keyboard Region",
+      "deprecated": false,
+      "payloadDescription": "",
+      "ackDescription": "",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0x01",
+          "comment": "0x00: US\n0x01: UK"
+        }
+      ]
+    },
+    {
+      "id": "0x0700",
+      "name": "Set Test Mode",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload selects whether to enter or exit Test Mode.",
+      "ackDescription": "The acknowledgement returns a status code indicating whether the Test Mode transition succeeded; this command documents 0x01 as the success code.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x01",
+          "comment": "Enter Test Mode"
+        },
+        {
+          "offset": "",
+          "value": "0x02",
+          "comment": "Exit Test Mode"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x01",
+          "comment": "Success status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0701",
+      "name": "Set RF Test Mode Enable",
+      "deprecated": false,
+      "payloadDescription": "No Command Payload is required; send an empty payload to enable RF Test Mode.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether RF Test Mode Enable succeeded.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0702",
+      "name": "BLE Reboot",
+      "deprecated": false,
+      "payloadDescription": "No Command Payload is required; send an empty payload to reboot the BLE module.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the BLE Reboot command was accepted.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0703",
+      "name": "Set RF Test XTAL Calibration",
+      "deprecated": false,
+      "payloadDescription": "No Command Payload is required; send an empty payload to run RF Test XTAL Calibration.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether XTAL Calibration succeeded.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0704",
+      "name": "Set RF Test Power",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload specifies the RF Test power level.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether RF Test Power was set successfully.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x01~0x0f",
+          "comment": "Power Level"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0705",
+      "name": "Set RF Test Single Carrier Low CH",
+      "deprecated": false,
+      "payloadDescription": "No Command Payload is required; send an empty payload to start the low-channel Single Carrier RF test.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the low-channel Single Carrier test started successfully.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0706",
+      "name": "Set RF Test Single Carrier Mid CH",
+      "deprecated": false,
+      "payloadDescription": "No Command Payload is required; send an empty payload to start the mid-channel Single Carrier RF test.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the mid-channel Single Carrier test started successfully.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0707",
+      "name": "Set RF Test Single Carrier High CH",
+      "deprecated": false,
+      "payloadDescription": "No Command Payload is required; send an empty payload to start the high-channel Single Carrier RF test.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the high-channel Single Carrier test started successfully.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0708",
+      "name": "Set RF Test Modulation Low CH",
+      "deprecated": false,
+      "payloadDescription": "No Command Payload is required; send an empty payload to start the low-channel Modulation RF test.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the low-channel Modulation test started successfully.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0709",
+      "name": "Set RF Test Modulation Mid CH",
+      "deprecated": false,
+      "payloadDescription": "No Command Payload is required; send an empty payload to start the mid-channel Modulation RF test.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the mid-channel Modulation test started successfully.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x070A",
+      "name": "Set RF Test Modulation High CH",
+      "deprecated": false,
+      "payloadDescription": "No Command Payload is required; send an empty payload to start the high-channel Modulation RF test.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the high-channel Modulation test started successfully.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x070B",
+      "name": "Set RF Test Single Carrier Set",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload specifies the channel and power level for the RF Single Carrier test.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the Single Carrier test was configured successfully for the selected channel.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x02~0x50",
+          "comment": "Channel (2~80)"
+        },
+        {
+          "offset": "1",
+          "value": "0x01~0x0f",
+          "comment": "Power Level"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x070C",
+      "name": "Set RF Test Modulation Set",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload specifies the channel, power level, and PHY speed for the RF Modulation test.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the Modulation test was configured successfully for the selected channel.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x02~0x50",
+          "comment": "Channel (2~80)"
+        },
+        {
+          "offset": "1",
+          "value": "0x01~0x0f",
+          "comment": "Power Level"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0x02",
+          "comment": "PHY Speed"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x070D",
+      "name": "Set RF Test RX Sensitivity",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload specifies the channel and PHY speed for the RF RX Sensitivity test.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the RX Sensitivity test was configured successfully.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x02~0x50",
+          "comment": "Channel (2~80)"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0x02",
+          "comment": "PHY Speed"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x070E",
+      "name": "Set RF DTM Mode Enable",
+      "deprecated": false,
+      "payloadDescription": "No Command Payload is required; send an empty payload to enable RF DTM Mode.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether RF DTM Mode Enable succeeded.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x070F",
+      "name": "Set Bt Protocol Send RF Test Continuous TX Test",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload specifies the RF channel used for the Continuous TX Test.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the Continuous TX Test started successfully.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x02~0x50",
+          "comment": "Channel"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0800",
+      "name": "Set Bt Protocol Send RF Test Continuous RX Test",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload specifies the RF channel used for the Continuous RX Test.",
+      "ackDescription": "The acknowledgement returns only a status code indicating whether the Continuous RX Test started successfully.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x02~0x50",
+          "comment": "Channel"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0801",
+      "name": "Set Test Indicator LED State",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload uses a bit mask to control test indicator LEDs, including Num, Caps, Scroll, Win, and Fn.",
+      "ackDescription": "The acknowledgement returns a status code indicating whether the Test Indicator LED State was set successfully.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x00~0x1f",
+          "comment": "Indicator LED bit mask:\nbit0 Num\nbit1 Caps\nbit2 Scroll\nbit3 Win\nbit4 Fn\n0=Off, 1=On"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0802",
+      "name": "Set Pairing Mode",
+      "deprecated": false,
+      "payloadDescription": "The Command Payload selects the pairing target, such as Bluetooth 1-4 or Dongle Pairing.",
+      "ackDescription": "The acknowledgement returns a status code indicating whether Pairing Mode was set successfully.",
+      "payload": [
+        {
+          "offset": "0",
+          "value": "0x01",
+          "comment": "Bluetooth 1 Pairing"
+        },
+        {
+          "offset": "",
+          "value": "0x02",
+          "comment": "Bluetooth 2 Pairing"
+        },
+        {
+          "offset": "",
+          "value": "0x03",
+          "comment": "Bluetooth 3 Pairing"
+        },
+        {
+          "offset": "",
+          "value": "0x04",
+          "comment": "Bluetooth 4 Pairing"
+        },
+        {
+          "offset": "",
+          "value": "0x05",
+          "comment": "Dongle Pairing"
+        }
+      ],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        }
+      ]
+    },
+    {
+      "id": "0x0883",
+      "name": "Get Test Connection Switch State",
+      "deprecated": false,
+      "payloadDescription": "No Command Payload is required; send an empty payload to read the test connection switch state.",
+      "ackDescription": "The acknowledgement returns a status code and the current connection interface, such as USB, Bluetooth, or 2.4G.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "",
+          "value": "0xff",
+          "comment": "Fail status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00",
+          "comment": "USB"
+        },
+        {
+          "offset": "",
+          "value": "0x01",
+          "comment": "Bluetooth"
+        },
+        {
+          "offset": "",
+          "value": "0x02",
+          "comment": "2.4G"
+        }
+      ]
+    },
+    {
+      "id": "0x0884",
+      "name": "Get Bluetooth Device Address",
+      "deprecated": false,
+      "payloadDescription": "No Command Payload is required; send an empty payload to read the Bluetooth device address.",
+      "ackDescription": "The acknowledgement returns a status code followed by six individual Bluetooth device address bytes. Display the address in byte order as offset 1:offset 2:offset 3:offset 4:offset 5:offset 6.",
+      "payload": [],
+      "ack": [
+        {
+          "offset": "0",
+          "value": "0x00",
+          "comment": "'Success' status code"
+        },
+        {
+          "offset": "1",
+          "value": "0x00~0xff",
+          "comment": "Bluetooth Device Address byte 0. Example 00:1b:dc:01:02:03 => 0x00"
+        },
+        {
+          "offset": "2",
+          "value": "0x00~0xff",
+          "comment": "Bluetooth Device Address byte 1. Example 00:1b:dc:01:02:03 => 0x1b"
+        },
+        {
+          "offset": "3",
+          "value": "0x00~0xff",
+          "comment": "Bluetooth Device Address byte 2. Example 00:1b:dc:01:02:03 => 0xdc"
+        },
+        {
+          "offset": "4",
+          "value": "0x00~0xff",
+          "comment": "Bluetooth Device Address byte 3. Example 00:1b:dc:01:02:03 => 0x01"
+        },
+        {
+          "offset": "5",
+          "value": "0x00~0xff",
+          "comment": "Bluetooth Device Address byte 4. Example 00:1b:dc:01:02:03 => 0x02"
+        },
+        {
+          "offset": "6",
+          "value": "0x00~0xff",
+          "comment": "Bluetooth Device Address byte 5. Example 00:1b:dc:01:02:03 => 0x03"
+        }
+      ]
+    }
+  ]
+}
